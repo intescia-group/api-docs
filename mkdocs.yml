@@ -3,14 +3,25 @@ site_author: Intescia Group
 repo_url: https://github.com/intescia-group/api-docs
 theme:
   name: material
-  features:
-    - navigation.tabs
-    - navigation.sections
+markdown_extensions:
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 plugins:
   - search
+  - neoteroi.mkdocsoad:
+      use_pymdownx: true
 nav:
   - Home: index.md
+  - OpenAPI: 
+    - CurrentUser: openapi/current-user.md
+    - Contracts: openapi/contracts.md
+    - Favorites: openapi/favorites.md
+    - DealOpportunities: openapi/deal-opportunities.md
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/intescia-group
+extra_css:
+  - css/mkdocs.css

@@ -1,0 +1,3801 @@
+{
+  "openapi" : "3.0.4",
+  "info" : {
+    "title" : "Intescia Api",
+    "version" : "v1"
+  },
+  "servers" : [ {
+    "url" : "https://v1.api.intescia.dev",
+    "description": "v1 API"
+  } ],
+  "security" : [ {
+    "BearerAuth" : [ ]
+  }, {
+    "OpenID" : [ ]
+  } ],
+  "paths" : {
+    "/contracts/{id}" : {
+      "get" : {
+        "tags" : [ "Contracts" ],
+        "operationId" : "getContract",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/hal+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ContractResource"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ContractResource"
+                }
+              },
+              "application/prs.hal-forms+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ContractResource"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contracts/{id}/lots" : {
+      "get" : {
+        "tags" : [ "ContractLots" ],
+        "operationId" : "getContractLots",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        }, {
+          "name" : "excludedLotId",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/hal+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PageLot"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "AdditionalFieldEnum" : {
+        "type" : "string",
+        "enum" : [ "AWARDED_AMOUNT", "BENEFICIARIES", "CONTRACT_TYPE", "CUSTOMER_FIELDS", "ESTIMATED_AMOUNT", "EXECUTION_CITIES", "INTERLOCUTORS", "NOTICES" ]
+      },
+      "Anticipation" : {
+        "type" : "object",
+        "properties" : {
+          "contractType" : {
+            "$ref" : "#/components/schemas/AnticipationContractTypeEnum"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "estimated" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "procedure" : {
+            "$ref" : "#/components/schemas/AnticipationProcedureEnum"
+          },
+          "projectArea" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "reference" : {
+            "type" : "string"
+          }
+        }
+      },
+      "AnticipationContractTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "SUPPLY", "MIXED", "SERVICES", "WORKS", "DESIGN_AND_STUDIES" ]
+      },
+      "AnticipationProcedureEnum" : {
+        "type" : "string",
+        "enum" : [ "OPEN_CONTRACT_PROCEDURE", "RESTRICTED_CONTRACT_PROCEDURE", "PERFORMANCES_CONTRACT_PROCEDURE", "NEGOTIATED_PROCEDURE", "ADAPTED_PROCEDURE", "OTHER" ]
+      },
+      "AssigneeDto" : {
+        "required" : [ "firstName", "lastName", "userId" ],
+        "type" : "object",
+        "properties" : {
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "AssignerDto" : {
+        "required" : [ "email", "firstName", "lastName", "userId" ],
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "AwardCriterion" : {
+        "type" : "object",
+        "properties" : {
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "order" : {
+            "type" : "string"
+          },
+          "text" : {
+            "type" : "string"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/AwardCriterionTypeEnum"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "weight" : {
+            "type" : "string"
+          }
+        }
+      },
+      "AwardCriterionTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "PRICE", "QUALITY", "COST", "PRIORITY", "FREE", "WEIGHT" ]
+      },
+      "Beneficiary" : {
+        "type" : "object",
+        "properties" : {
+          "awardedAmount" : {
+            "$ref" : "#/components/schemas/MonetaryValue"
+          },
+          "contact" : {
+            "$ref" : "#/components/schemas/Contact"
+          },
+          "directoryId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "isAwardedAmountEstimated" : {
+            "type" : "boolean"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "nationalId" : {
+            "type" : "string"
+          },
+          "place" : {
+            "$ref" : "#/components/schemas/Place"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "website" : {
+            "type" : "string"
+          }
+        }
+      },
+      "BeneficiaryDto" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "nationalId" : {
+            "type" : "string"
+          },
+          "place" : {
+            "$ref" : "#/components/schemas/PlaceDto"
+          }
+        }
+      },
+      "Boamp" : {
+        "type" : "object",
+        "properties" : {
+          "contractTypes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractTypeEnum"
+            }
+          },
+          "descriptorCodes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "procedure" : {
+            "$ref" : "#/components/schemas/BoampProcedureEnum"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "BoampProcedureEnum" : {
+        "type" : "string",
+        "enum" : [ "OPEN_CONTEST", "RESTRICTED_CONTEST", "NEGOTIATED_PROCEDURE", "ADAPTED_PROCEDURE", "NOT_SPECIFIED", "OPEN_PROCEDURE", "ACCELERATED_OPEN_PROCEDURE", "RESTRICTED_PROCEDURE", "ACCELERATED_RESTRICTED_PROCEDURE", "ACCELERATED_NEGOTIATED_PROCEDURE", "NEGOTIATED_PROCEDURE_WITHOUT_PRIOR_PUBLICATION", "NEGOTIATED_PROCEDURE_WITH_PRIOR_PUBLICATION", "COMPETITIVE_DIALOGUE", "CONTRACT_AWARD_WITHOUT_PRIOR_JOUE_PUBLICATION", "OTHER", "NEGOTIATED_PROCEDURE_WITHOUT_CALL_FOR_COMPETITION", "INNOVATION_PARTNERSHIP", "CONTRACT_AWARD_WITH_PRIOR_JOUE_PUBLICATION", "OPEN_CALL_FOR_TENDERS", "RESTRICTED_CALL_FOR_TENDERS", "OTHER_NEGOTIATED_CONTRACTS", "PUBLIC_SERVICE_DELEGATION", "PROJECT_MANAGEMENT_WITH_CONTEST", "NEGOTIATED_PROJECT_MANAGEMENT", "CONCEPTION_REALISATION_CONTRACT", "PROJECT_MANAGEMENT_CONTRACT", "SIMPLIFIED_CALL_FOR_TENDERS", "NOT_APPLICABLE", "PROJECT_MANAGEMENT_AFTER_OPEN_CALL_FOR_TENDERS", "PROJECT_MANAGEMENT_AFTER_RESTRICTED_CALL_FOR_TENDERS", "NEGOTIATED_CONTRACT_AFTER_UNSUCCESSFUL_CALL_FOR_TENDERS", "PROJECT_MANAGEMENT_WITHOUT_CONTEST", "NOTICE_FOR_TWELVE_MONTH" ]
+      },
+      "BuildingTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "BUILDING", "RESIDENCE" ]
+      },
+      "Classification" : {
+        "type" : "object",
+        "properties" : {
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "mainCode" : {
+            "type" : "string"
+          },
+          "order" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "supplementaryClassifications" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SupplementaryClassification"
+            }
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "CollaborativeDealOpportunityDto" : {
+        "type" : "object",
+        "properties" : {
+          "favoriteId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "teamIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          }
+        }
+      },
+      "Contact" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "telephone" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Contract" : {
+        "required" : [ "id", "state", "translations", "version" ],
+        "type" : "object",
+        "properties" : {
+          "activities" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/EdisysActivity"
+            }
+          },
+          "attachedDocuments" : {
+            "type" : "boolean"
+          },
+          "award" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "awardCriteria" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AwardCriterion"
+            }
+          },
+          "beneficiaries" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Beneficiary"
+            }
+          },
+          "buildingType" : {
+            "$ref" : "#/components/schemas/BuildingTypeEnum"
+          },
+          "cancellation" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "capacityCertification" : {
+            "type" : "boolean"
+          },
+          "classifications" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Classification"
+            }
+          },
+          "completeObject" : {
+            "type" : "string"
+          },
+          "conditionalTranche" : {
+            "type" : "string"
+          },
+          "consultation" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "documents" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DtvDocument"
+            }
+          },
+          "documentsAvailability" : {
+            "$ref" : "#/components/schemas/DocumentsAvailabilityEnum"
+          },
+          "environmentalCriteria" : {
+            "type" : "boolean"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "estimatedAmount" : {
+            "$ref" : "#/components/schemas/MonetaryValue"
+          },
+          "executions" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Place"
+            }
+          },
+          "extensionCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "extensions" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractExtension"
+            }
+          },
+          "firmTranche" : {
+            "type" : "string"
+          },
+          "floorArea" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "folderWithdrawal" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "housingCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "initialDuration" : {
+            "$ref" : "#/components/schemas/Duration"
+          },
+          "interlocutors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Interlocutor"
+            }
+          },
+          "mandatoryExcelResponse" : {
+            "type" : "boolean"
+          },
+          "mandatorySiteVisit" : {
+            "type" : "boolean"
+          },
+          "master" : {
+            "$ref" : "#/components/schemas/Contract"
+          },
+          "maxRenewalDuration" : {
+            "$ref" : "#/components/schemas/Duration"
+          },
+          "maxResponseAmount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "minRenewalDuration" : {
+            "$ref" : "#/components/schemas/Duration"
+          },
+          "minResponseAmount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "noticeFirstPublication" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "notices" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Notice"
+            }
+          },
+          "nutsVersion" : {
+            "$ref" : "#/components/schemas/NutsVersionEnum"
+          },
+          "originalLanguage" : {
+            "$ref" : "#/components/schemas/LanguageEnum"
+          },
+          "permits" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Permit"
+            }
+          },
+          "placesCodes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PlaceCode"
+            }
+          },
+          "posting" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "priceUndertaking" : {
+            "$ref" : "#/components/schemas/PriceUndertakingEnum"
+          },
+          "principal" : {
+            "$ref" : "#/components/schemas/Principal"
+          },
+          "procedures" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProcedureEnum"
+            }
+          },
+          "progress" : {
+            "$ref" : "#/components/schemas/ProgressEnum"
+          },
+          "projectType" : {
+            "$ref" : "#/components/schemas/ProjectTypeEnum"
+          },
+          "publication" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "publishingCountryCode" : {
+            "$ref" : "#/components/schemas/CountryCodeEnum"
+          },
+          "publishingDepartments" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "qualifications" : {
+            "type" : "string"
+          },
+          "reference" : {
+            "type" : "string"
+          },
+          "renewable" : {
+            "type" : "boolean"
+          },
+          "renewal" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "renewalOrigin" : {
+            "$ref" : "#/components/schemas/ContractRenewalOriginEnum"
+          },
+          "response" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "responseUrl" : {
+            "type" : "string"
+          },
+          "siteVisit" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "socialCriteria" : {
+            "type" : "boolean"
+          },
+          "sources" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractSourceEnum"
+            }
+          },
+          "state" : {
+            "$ref" : "#/components/schemas/ContractStateEnum"
+          },
+          "subTarget" : {
+            "$ref" : "#/components/schemas/SubTargetEnum"
+          },
+          "target" : {
+            "$ref" : "#/components/schemas/TargetEnum"
+          },
+          "timeFrame" : {
+            "$ref" : "#/components/schemas/TimeFrame"
+          },
+          "totalResponsesReceived" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "translations" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractTranslation"
+            }
+          },
+          "types" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractTypeEnum"
+            }
+          },
+          "update" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "withFrameworkAgreement" : {
+            "type" : "boolean"
+          },
+          "withParts" : {
+            "type" : "boolean"
+          },
+          "withVariant" : {
+            "type" : "boolean"
+          },
+          "workType" : {
+            "$ref" : "#/components/schemas/WorksTypeEnum"
+          },
+          "worksEnd" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "worksStart" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "ContractEntityModel" : {
+        "required" : [ "id", "state", "translations", "version" ],
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "activities" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/EdisysActivity"
+            }
+          },
+          "attachedDocuments" : {
+            "type" : "boolean"
+          },
+          "award" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "awardCriteria" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AwardCriterion"
+            }
+          },
+          "beneficiaries" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Beneficiary"
+            }
+          },
+          "buildingType" : {
+            "$ref" : "#/components/schemas/BuildingTypeEnum"
+          },
+          "cancellation" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "capacityCertification" : {
+            "type" : "boolean"
+          },
+          "classifications" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Classification"
+            }
+          },
+          "completeObject" : {
+            "type" : "string"
+          },
+          "conditionalTranche" : {
+            "type" : "string"
+          },
+          "consultation" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "documents" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DtvDocument"
+            }
+          },
+          "documentsAvailability" : {
+            "$ref" : "#/components/schemas/DocumentsAvailabilityEnum"
+          },
+          "environmentalCriteria" : {
+            "type" : "boolean"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "estimatedAmount" : {
+            "$ref" : "#/components/schemas/MonetaryValue"
+          },
+          "executions" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Place"
+            }
+          },
+          "extensionCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "extensions" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractExtension"
+            }
+          },
+          "firmTranche" : {
+            "type" : "string"
+          },
+          "floorArea" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "folderWithdrawal" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "housingCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "initialDuration" : {
+            "$ref" : "#/components/schemas/Duration"
+          },
+          "interlocutors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Interlocutor"
+            }
+          },
+          "mandatoryExcelResponse" : {
+            "type" : "boolean"
+          },
+          "mandatorySiteVisit" : {
+            "type" : "boolean"
+          },
+          "master" : {
+            "$ref" : "#/components/schemas/Contract"
+          },
+          "maxRenewalDuration" : {
+            "$ref" : "#/components/schemas/Duration"
+          },
+          "maxResponseAmount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "minRenewalDuration" : {
+            "$ref" : "#/components/schemas/Duration"
+          },
+          "minResponseAmount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "noticeFirstPublication" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "notices" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Notice"
+            }
+          },
+          "nutsVersion" : {
+            "$ref" : "#/components/schemas/NutsVersionEnum"
+          },
+          "originalLanguage" : {
+            "$ref" : "#/components/schemas/LanguageEnum"
+          },
+          "permits" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Permit"
+            }
+          },
+          "placesCodes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PlaceCode"
+            }
+          },
+          "posting" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "priceUndertaking" : {
+            "$ref" : "#/components/schemas/PriceUndertakingEnum"
+          },
+          "principal" : {
+            "$ref" : "#/components/schemas/Principal"
+          },
+          "procedures" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProcedureEnum"
+            }
+          },
+          "progress" : {
+            "$ref" : "#/components/schemas/ProgressEnum"
+          },
+          "projectType" : {
+            "$ref" : "#/components/schemas/ProjectTypeEnum"
+          },
+          "publication" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "publishingCountryCode" : {
+            "$ref" : "#/components/schemas/CountryCodeEnum"
+          },
+          "publishingDepartments" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "qualifications" : {
+            "type" : "string"
+          },
+          "reference" : {
+            "type" : "string"
+          },
+          "renewable" : {
+            "type" : "boolean"
+          },
+          "renewal" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "renewalOrigin" : {
+            "$ref" : "#/components/schemas/ContractRenewalOriginEnum"
+          },
+          "response" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "responseUrl" : {
+            "type" : "string"
+          },
+          "siteVisit" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "socialCriteria" : {
+            "type" : "boolean"
+          },
+          "sources" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractSourceEnum"
+            }
+          },
+          "state" : {
+            "$ref" : "#/components/schemas/ContractStateEnum"
+          },
+          "subTarget" : {
+            "$ref" : "#/components/schemas/SubTargetEnum"
+          },
+          "target" : {
+            "$ref" : "#/components/schemas/TargetEnum"
+          },
+          "timeFrame" : {
+            "$ref" : "#/components/schemas/TimeFrame"
+          },
+          "totalResponsesReceived" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "translations" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractTranslation"
+            }
+          },
+          "types" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractTypeEnum"
+            }
+          },
+          "update" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "withFrameworkAgreement" : {
+            "type" : "boolean"
+          },
+          "withParts" : {
+            "type" : "boolean"
+          },
+          "withVariant" : {
+            "type" : "boolean"
+          },
+          "workType" : {
+            "$ref" : "#/components/schemas/WorksTypeEnum"
+          },
+          "worksEnd" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "worksStart" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "ContractExtension" : {
+        "required" : [ "id", "version" ],
+        "type" : "object",
+        "properties" : {
+          "duration" : {
+            "$ref" : "#/components/schemas/Duration"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "startDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "ContractRenewalOriginEnum" : {
+        "type" : "string",
+        "enum" : [ "NOTICE", "DATA_SCIENCE", "OPERATOR" ]
+      },
+      "ContractResource" : {
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "contract" : {
+            "$ref" : "#/components/schemas/ContractEntityModel"
+          },
+          "crmExported" : {
+            "type" : "boolean"
+          },
+          "customized" : {
+            "type" : "boolean"
+          },
+          "hasDocuments" : {
+            "type" : "boolean"
+          },
+          "hasEdisysActivities" : {
+            "type" : "boolean"
+          },
+          "lotsCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "viewers" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ViewerDto"
+            }
+          }
+        }
+      },
+      "ContractSourceEnum" : {
+        "type" : "string",
+        "enum" : [ "BOAMP", "JOUE", "INTERNATIONAL", "PERMIT", "PQR", "PRESCRIPTION", "UPSTREAM_PROJECT", "SPAIN_MINFI", "CONFIDENTIAL", "SPAIN_MADRID" ]
+      },
+      "ContractStateEnum" : {
+        "type" : "string",
+        "enum" : [ "FUTURE", "ONGOING", "AWARDED", "NOT_AWARDED", "EXPIRED", "DISMISSED", "UNSUCCESSFUL", "UNSUCCESSFUL_DISMISSED" ]
+      },
+      "ContractTranslation" : {
+        "required" : [ "language" ],
+        "type" : "object",
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "language" : {
+            "$ref" : "#/components/schemas/LanguageEnum"
+          },
+          "object" : {
+            "type" : "string"
+          },
+          "scope" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "ContractTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "WORKS", "SUPPLY", "SERVICES", "DESIGN_AND_STUDIES" ]
+      },
+      "CountryCodeEnum" : {
+        "type" : "string",
+        "enum" : [ "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FM", "FO", "FR", "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HM", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT", "JE", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY", "QA", "RE", "RO", "RS", "RU", "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "XK", "YE", "YT", "YU", "ZA", "ZM", "ZW" ]
+      },
+      "CustomDateFieldFilter" : {
+        "type" : "object",
+        "properties" : {
+          "rangeEnd" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "rangeStart" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "CustomFieldFilters" : {
+        "required" : [ "customFieldConfigurationId" ],
+        "type" : "object",
+        "properties" : {
+          "customFieldConfigurationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "dateFieldFilters" : {
+            "$ref" : "#/components/schemas/CustomDateFieldFilter"
+          },
+          "listFieldFilters" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "textFieldFilter" : {
+            "type" : "string"
+          }
+        }
+      },
+      "DealOpportunityEntityTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "CONTRACT", "LOT", "CONFIDENTIAL_CONTRACT", "CONFIDENTIAL_LOT", "TERRITORIAL_DOCUMENT" ]
+      },
+      "DealOpportunityMetadata" : {
+        "required" : [ "archived", "crmExported", "customized", "dieAvailable", "hasQuestionsAnswers" ],
+        "type" : "object",
+        "properties" : {
+          "archived" : {
+            "type" : "boolean"
+          },
+          "assignees" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AssigneeDto"
+            }
+          },
+          "collaborativeDealOpportunities" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/CollaborativeDealOpportunityDto"
+            }
+          },
+          "crmExported" : {
+            "type" : "boolean"
+          },
+          "customized" : {
+            "type" : "boolean"
+          },
+          "dieAvailable" : {
+            "type" : "boolean"
+          },
+          "hasQuestionsAnswers" : {
+            "type" : "boolean"
+          },
+          "lastSent" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "myDealOpportunity" : {
+            "$ref" : "#/components/schemas/MyDealOpportunityDto"
+          },
+          "referencedCollaborativeDealOpportunities" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/CollaborativeDealOpportunityDto"
+            }
+          },
+          "referencedMyDealOpportunity" : {
+            "$ref" : "#/components/schemas/MyDealOpportunityDto"
+          },
+          "searchProfileNames" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "viewers" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/UserModel"
+            }
+          }
+        }
+      },
+      "DealOpportunityModel" : {
+        "required" : [ "dealOpportunityResultType", "hasDocuments", "id", "originalLanguage", "placesCodes", "principal", "publication", "translations" ],
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "awardedAmount" : {
+            "$ref" : "#/components/schemas/SingleMonetaryValue"
+          },
+          "beneficiaries" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/BeneficiaryDto"
+            }
+          },
+          "contractId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "contractTranslations" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DealOpportunityTranslationDto"
+            }
+          },
+          "contractTypes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractTypeEnum"
+            }
+          },
+          "councilDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "customerFields" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "uniqueItems" : true,
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "deadline" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "dealOpportunityResultType" : {
+            "$ref" : "#/components/schemas/DealOpportunityEntityTypeEnum"
+          },
+          "estimatedAmount" : {
+            "$ref" : "#/components/schemas/SingleMonetaryValue"
+          },
+          "executionCities" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "executions" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PlaceDto"
+            }
+          },
+          "floorArea" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "hasDocuments" : {
+            "type" : "boolean"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "interlocutors" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "uniqueItems" : true,
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/TinyInterlocutorDto"
+              }
+            }
+          },
+          "interlocutorsCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "lotNumber" : {
+            "type" : "string"
+          },
+          "lotsCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "noticeFirstPublication" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "notices" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/NoticeDto"
+            }
+          },
+          "originalLanguage" : {
+            "$ref" : "#/components/schemas/LanguageEnum"
+          },
+          "placesCodes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PlaceCodeDto"
+            }
+          },
+          "posting" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "principal" : {
+            "$ref" : "#/components/schemas/PrincipalDto"
+          },
+          "progress" : {
+            "$ref" : "#/components/schemas/ProgressEnum"
+          },
+          "projectType" : {
+            "$ref" : "#/components/schemas/ProjectTypeEnum"
+          },
+          "publication" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "renewal" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "response" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "sources" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContractSourceEnum"
+            }
+          },
+          "start" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "state" : {
+            "$ref" : "#/components/schemas/ContractStateEnum"
+          },
+          "translations" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DealOpportunityTranslationDto"
+            }
+          },
+          "worksEnd" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "worksStart" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "DealOpportunitySearchHitModel" : {
+        "required" : [ "dealOpportunity", "metadata", "searchHitMetadata" ],
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "dealOpportunity" : {
+            "$ref" : "#/components/schemas/DealOpportunityModel"
+          },
+          "metadata" : {
+            "$ref" : "#/components/schemas/DealOpportunityMetadata"
+          },
+          "searchHitMetadata" : {
+            "$ref" : "#/components/schemas/SearchHitMetadata"
+          }
+        }
+      },
+      "DealOpportunityTranslationDto" : {
+        "required" : [ "language", "object" ],
+        "type" : "object",
+        "properties" : {
+          "language" : {
+            "$ref" : "#/components/schemas/LanguageEnum"
+          },
+          "object" : {
+            "type" : "string"
+          }
+        }
+      },
+      "DocumentTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "RC", "CCTP", "CCAP", "DQE", "BPU", "AE", "PLAN", "QR", "DUME", "OTHER", "APPENDIX", "APERTURAS", "ADJUDICACION", "BC3", "MAIL_EXCHANGE" ]
+      },
+      "DocumentsAvailabilityEnum" : {
+        "type" : "string",
+        "enum" : [ "AVAILABLE_FOR_DOWNLOAD", "NOT_PROVIDED", "AVAILABLE_ON_PAPER_ONLY", "AVAILABLE_BY_FAX_ONLY" ]
+      },
+      "DtvDocument" : {
+        "required" : [ "id", "version" ],
+        "type" : "object",
+        "properties" : {
+          "added" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "documentId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "filename" : {
+            "type" : "string"
+          },
+          "hash" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "language" : {
+            "type" : "string"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/DocumentTypeEnum"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "wordsLocation" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Duration" : {
+        "type" : "object",
+        "properties" : {
+          "duration" : {
+            "type" : "number"
+          },
+          "durationType" : {
+            "$ref" : "#/components/schemas/DurationTypeEnum"
+          }
+        }
+      },
+      "DurationTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "DAY", "MONTH", "YEAR" ]
+      },
+      "EdisysActivity" : {
+        "type" : "object",
+        "properties" : {
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "origin" : {
+            "$ref" : "#/components/schemas/EdisysActivityOriginEnum"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/EdisysActivityTypeEnum"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "EdisysActivityOriginEnum" : {
+        "type" : "string",
+        "enum" : [ "MANUAL", "QUERIES" ]
+      },
+      "EdisysActivityTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "FENCES", "METAL_STRUCTURES", "WASTE_PURIFICATION", "DEMOLITION", "ASBESTOS_REMOVAL", "GREEN_SPACES_WATERING", "SPECIAL_FOUNDATIONS", "DRILLING", "CIVIL_ENGINEERING", "STREET_FURNITURE", "WORKS_OF_ART", "WET_PIPELINES", "DRY_PIPELINES", "MARKINGS", "BORING", "EARTHWORKS_EXPLOSIVES", "MARITIME_FLUVIAL_WORKS", "ROAD_WORKS", "UNDERGROUND_WORKS", "RAILWAY", "ROADS_GRIDS_MISCELLANEOUS", "STRUCTURE_SCAFFOLDING_LIFTING", "COVERING_ZING_WORK", "WATERTIGHTNESS_PROTECTION", "MASONRY", "IRONWORK", "ALL_BUILDING_TRADES_AND_PROFESSIONS", "ELEVATORS", "HEATING_AIR_CONDITIONING_VENTILATION", "ELECTRICITY_ALARM_PHONE_SIGNS", "FITTINGS_LAYOUT_FURNITURE", "CARPENTRY", "PAINTWORK_FACADE_RENOVATION", "PLASTERWORK_PARTITIONS_INSULATION", "PLUMBING", "FLOOR_WALL_COVERING", "GLASS_MIRRORS", "MISCELLANEOUS" ]
+      },
+      "Email" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "Error" : {
+        "type" : "object",
+        "properties" : {
+          "fields" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "fixable" : {
+            "type" : "boolean"
+          },
+          "fixed" : {
+            "type" : "boolean"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "path" : {
+            "type" : "string"
+          },
+          "priority" : {
+            "$ref" : "#/components/schemas/PriorityEnum"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/ErrorTypeEnum"
+          },
+          "value" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "ErrorTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "VALUE_TOO_LARGE_FOR_DB", "VALUE_WITH_NON_QUALITATIVE_LENGTH", "MISSING_VALUE", "MISSING_CITY_INSEE_CODE", "MISSING_PERSON_DIRECTORY_ID", "MISSING_ESTABLISHMENT_ID", "MISSING_GEOCODING", "MISSING_BENEFICIARIES", "DEPARTMENT_CODE_MISMATCH", "GEOCODING_MISMATCH", "CONTRACT_IMPORT_FAILED", "OPERATOR_FILLING_REQUIRED", "PROCEDURE_MISMATCH", "BENEFICIARY_MISMATCH", "LOT_MISMATCH", "LOTS_SIZE_MISMATCH", "AWARDED_AMOUNT_MISMATCH", "DIRECTORY_ID_BASED_ON_ZIPCODE_CITY_ONLY", "GEOCODING_MULTIPLE_NUTS_CODES", "BENEFICIARIES_SIZE_MISMATCH", "MULTIPLE_PERFECT_MATCHES_HEADQUARTERS_SELECTED", "OPERATOR_VERIFICATION_REQUIRED_AFTER_NOTICE_DETACHMENT", "MANUAL_ERROR", "UPDATE_LOT_NOT_FOUND", "UPDATE_LOT_MULTIPLE_FOUND", "UPDATE_PLACE_NOT_FOUND", "UPDATE_PLACE_MULTIPLE_FOUND", "EXECUTIONS_MISMATCH", "BAD_FORMAT_PERCENT", "BAD_FORMAT_LOT_NUMBER", "BAD_FORMAT_PAM_NUMBER", "BAD_FORMAT_NATIONAL_ID", "BAD_FORMAT_PHONE", "BAD_FORMAT_EMAIL", "BAD_FORMAT_URL", "BAD_FORMAT_CLASSIFICATION", "BAD_FORMAT_ZIP_CODE", "BAD_FORMAT_COUNTRY_CODE", "BAD_FORMAT_DEPARTEMENT_CODE", "BAD_FORMAT_INSEE_CODE", "BAD_FORMAT_NUTS_CODE", "BAD_FORMAT_NUMBER", "BAD_FORMAT_CURRENCY", "TIMEFRAME_MISMATCH", "IMPRECISE_EXECUTION", "FORBIDDEN_NEGATIVE_VALUE", "BAD_FORMAT_NUMBER_OF_TENDERS", "MISSING_END_DATES", "RECTIF_WITHOUT_CHANGES", "INCORRECT_FORMAT", "OPERATOR_NEEDED", "LOT_STATE_MISMATCH", "MISSING_EXECUTION", "MISSING_ACTIVITIES", "VERIFY_ACTIVITIES", "MISSING_DEPARTMENT_CODE", "MISSING_RESPONSE_TIME", "MISSING_AWARDED_AMOUNT", "MISSING_COUNTRY_CODE", "INVALID_DEPARTMENT_FOR_COUNTRY", "GEOCODING_MULTIPLE_DEPARTMENTS", "OPERATOR_NEEDED_EXECUTION", "OPERATOR_NEEDED_LOTS", "MISSING_CLASSIFICATION", "FORBIDDEN_ZERO_OR_NEGATIVE_VALUE", "RENEWAL_DATA_INCOMPLETE", "RENEWAL_DATA_MISMATCH", "RENEWAL_DATE_MISMATCH", "RENEWAL_INITIAL_DURATION_MISMATCH", "LOT_RESPONSE_MISMATCH" ]
+      },
+      "FavoriteDescriptionEnum" : {
+        "type" : "string",
+        "enum" : [ "ACTION", "DECISION", "RESULT", "STATUS_TO_BE_DEFINED" ]
+      },
+      "FavoriteDto" : {
+        "required" : [ "color", "icon", "id", "position", "type", "version" ],
+        "type" : "object",
+        "properties" : {
+          "color" : {
+            "maxLength" : 7,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "descriptionTranslationKey" : {
+            "$ref" : "#/components/schemas/FavoriteDescriptionEnum"
+          },
+          "favoriteWorkflowRule" : {
+            "$ref" : "#/components/schemas/FavoriteWorkflowRuleDto"
+          },
+          "icon" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "nameForExport" : {
+            "type" : "string"
+          },
+          "nameTranslationKey" : {
+            "$ref" : "#/components/schemas/FavoriteNameEnum"
+          },
+          "position" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/FavoriteTypeEnum"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "FavoriteNameEnum" : {
+        "type" : "string",
+        "enum" : [ "APPLICATION_SENT", "GO", "IN_PROGRESS", "INTERESTED", "LOST", "NEGOCIATION_IN_PROGRESS", "NO_GO", "NO_RESPONSE", "NOT_APPLICABLE", "OFF_TARGET", "PENDING", "PENDING_DECISION", "PLANNED", "RESPONSE_BEING_PREPARED", "RESPONSE_SENT", "TO_ANALYSE", "TO_COMPARE", "TO_CONTACT", "TO_LOOK", "UNKNOWN", "UNSUCCESSFUL", "WON" ]
+      },
+      "FavoriteTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "CONTRACT", "ESTABLISHMENT", "COLLABORATIVE_MODE_STATUS" ]
+      },
+      "FavoriteTypeFilter" : {
+        "required" : [ "type" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "$ref" : "#/components/schemas/FavoriteTypeEnum"
+          }
+        }
+      },
+      "FavoriteWorkflowRuleDto" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "rule" : {
+            "$ref" : "#/components/schemas/FavoriteWorkflowRuleEnum"
+          }
+        }
+      },
+      "FavoriteWorkflowRuleEnum" : {
+        "type" : "string",
+        "enum" : [ "MOVE_TO_ARCHIVED", "MOVE_TO_FAVORITE" ]
+      },
+      "FavoritesFilter" : {
+        "required" : [ "emptyFavorite", "favoriteIds" ],
+        "type" : "object",
+        "properties" : {
+          "emptyFavorite" : {
+            "type" : "boolean"
+          },
+          "favoriteIds" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "uuid"
+            }
+          }
+        }
+      },
+      "FilterableFieldEnum" : {
+        "type" : "string",
+        "enum" : [ "BENEFICIARY_LOCATIONS", "BENEFICIARY_NAME", "CITY_EXECUTIONS", "CONTRACT_ID", "CONTRACT_TYPE", "DEADLINE_DATE", "EXECUTION_LOCATIONS", "ID", "INTERLOCUTOR_ROLE", "NOTICE_FIRST_PUBLICATION_DATE", "NOTICE_TYPE", "OBJECT", "PLACES", "POSTING_DATE", "PRINCIPAL_LOCATIONS", "PRINCIPAL_NAME", "PROGRESS", "PROJECT_TYPE", "PUBLICATION_DATE", "RENEWAL_DATE", "RESPONSE_DATE", "SOURCE", "STATE", "WITH_LOTS" ]
+      },
+      "Geocoding" : {
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "string"
+          },
+          "city" : {
+            "type" : "string"
+          },
+          "countryCode" : {
+            "type" : "string"
+          },
+          "inseeCode" : {
+            "type" : "string"
+          },
+          "latitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "longitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "maxAdministrativeAreaLevel" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "nutsCode" : {
+            "type" : "string"
+          },
+          "zipCode" : {
+            "type" : "string"
+          }
+        }
+      },
+      "GeocodingDto" : {
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "string"
+          },
+          "city" : {
+            "type" : "string"
+          },
+          "countryCode" : {
+            "type" : "string"
+          },
+          "inseeCode" : {
+            "type" : "string"
+          },
+          "latitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "longitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "maxAdministrativeAreaLevel" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "nutsCode" : {
+            "type" : "string"
+          },
+          "zipCode" : {
+            "type" : "string"
+          }
+        }
+      },
+      "HighlightDocumentsMessage" : {
+        "required" : [ "fileName", "fromContractEntity", "fromLotEntity", "id", "messages" ],
+        "type" : "object",
+        "properties" : {
+          "fileName" : {
+            "type" : "string"
+          },
+          "fromContractEntity" : {
+            "type" : "boolean"
+          },
+          "fromLotEntity" : {
+            "type" : "boolean"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "messages" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "Interlocutor" : {
+        "type" : "object",
+        "properties" : {
+          "contact" : {
+            "$ref" : "#/components/schemas/Contact"
+          },
+          "contactBusinessId" : {
+            "type" : "string"
+          },
+          "directoryId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "fax" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "nationalId" : {
+            "type" : "string"
+          },
+          "origin" : {
+            "$ref" : "#/components/schemas/InterlocutorOrigin"
+          },
+          "place" : {
+            "$ref" : "#/components/schemas/Place"
+          },
+          "role" : {
+            "$ref" : "#/components/schemas/RoleEnum"
+          },
+          "telephone" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "website" : {
+            "type" : "string"
+          }
+        }
+      },
+      "InterlocutorOrigin" : {
+        "type" : "object",
+        "properties" : {
+          "dceId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "origin" : {
+            "$ref" : "#/components/schemas/InterlocutorOriginEnum"
+          }
+        }
+      },
+      "InterlocutorOriginEnum" : {
+        "type" : "string",
+        "enum" : [ "OPERATOR", "MAPPING", "DCE" ]
+      },
+      "International" : {
+        "type" : "object",
+        "properties" : {
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "procedure" : {
+            "$ref" : "#/components/schemas/InternationalProcedureEnum"
+          }
+        }
+      },
+      "InternationalProcedureEnum" : {
+        "type" : "string",
+        "enum" : [ "OPEN_CONTRACT_PROCEDURE", "RESTRICTED_CONTRACT_PROCEDURE", "PERFORMANCES_CONTRACT_PROCEDURE", "CORRECTION_NOTICE", "OPEN_DESIGN_CONTEST", "RESTRICTED_DESIGN_CONTEST", "FR_CONCOURS_SERVICE_PUBLIC", "FR_MARCHE_MAITRISE_OEUVRE", "NEGOTIATED_PROCEDURE", "FR_MARCHE_SANS_FORMALISME", "FR_MISE_EN_CONCURRENCE_SIMPLIFIEE", "ADAPTED_PROCEDURE", "RESTRICTED_PROCEDURE", "ADAPTED_PROCEDURE_CORRECTION", "OTHER", "NOT_SPECIFIED", "PROJECT_MANAGEMENT_CONTRACT" ]
+      },
+      "Joue" : {
+        "type" : "object",
+        "properties" : {
+          "contractTypes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/JoueContractTypeEnum"
+            }
+          },
+          "contractingType" : {
+            "$ref" : "#/components/schemas/JoueContractingTypeEnum"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "procedure" : {
+            "$ref" : "#/components/schemas/JoueProcedureEnum"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "JoueContractTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "WORKS", "MIXED", "SUPPLY", "SERVICES", "OTHER" ]
+      },
+      "JoueContractingTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "MINISTRY_OR_ANY_NATIONAL_FEDERAL_AUTHORITY", "ARMED_FORCES", "REGIONAL_OR_LOCAL_AUTHORITY", "UTILITIES_ENTITY", "EUROPEAN_INSTITUTION_AGENCY_OR_INTERNATIONAL_ORGANISATION", "BODY_GOVERNED_BY_PUBLIC_LAW", "OTHER", "NOT_APPLICABLE", "NATIONAL_OR_FEDERAL_AGENCY_OFFICE", "REGIONAL_OR_LOCAL_AGENCY_OFFICE", "NOT_SPECIFIED" ]
+      },
+      "JoueProcedureEnum" : {
+        "type" : "string",
+        "enum" : [ "ACCELERATED_NEGOTIATED_PROCEDURE", "ACCELERATED_RESTRICTED_PROCEDURE", "COMPETITIVE_DIALOGUE", "CONTRACT_AWARD_WITHOUT_PRIOR_PUBLICATION", "DIRECT_AWARD", "NEGOTIATED_PROCEDURE", "NEGOTIATED_WITHOUT_A_PRIOR_CALL_FOR_COMPETITION", "NOT_APPLICABLE", "NOT_SPECIFIED", "OPEN_PROCEDURE", "OTHER", "RESTRICTED_PROCEDURE", "COMPETITIVE_PROCEDURE_WITH_NEGOTIATION", "CONCESSION_AWARD_PROCEDURE", "CONCESSION_AWARD_WITHOUT_PRIOR_CONCESSION_NOTICE", "INNOVATION_PARTNERSHIP", "PRIOR_INFORMATION", "OPEN_PROCEDURE_WITH_RECURRING_QUANTITIES", "CONTRACT_AWARDS", "GENERAL_INFORMATION", "DESIGN_CONTEST", "CALL_FOR_EXPRESSIONS_OF_INTEREST", "QUALIFICATION_SYSTEM", "RESULTS_OF_DESIGN_CONTESTS" ]
+      },
+      "LanguageEnum" : {
+        "type" : "string",
+        "enum" : [ "AA", "AB", "AE", "AF", "AK", "AM", "AN", "AR", "AS", "AV", "AY", "AZ", "BA", "BE", "BG", "BH", "BI", "BM", "BN", "BO", "BR", "BS", "CA", "CE", "CH", "CO", "CR", "CS", "CU", "CV", "CY", "DA", "DE", "DV", "DZ", "EE", "EL", "EN", "EO", "ES", "ET", "EU", "FA", "FF", "FI", "FJ", "FO", "FR", "FY", "GA", "GD", "GL", "GN", "GU", "GV", "HA", "HE", "HI", "HO", "HR", "HT", "HU", "HY", "HZ", "IA", "ID", "IE", "IG", "II", "IK", "IO", "IS", "IT", "IU", "JA", "JV", "KA", "KG", "KI", "KJ", "KK", "KL", "KM", "KN", "KO", "KR", "KS", "KU", "KV", "KW", "KY", "LA", "LB", "LG", "LI", "LN", "LO", "LT", "LU", "LV", "MG", "MH", "MI", "MK", "ML", "MN", "MO", "MR", "MS", "MT", "MY", "NA", "NB", "ND", "NE", "NG", "NL", "NN", "NO", "NR", "NV", "NY", "OC", "OJ", "OM", "OR", "OS", "PA", "PI", "PL", "PS", "PT", "QU", "RC", "RM", "RN", "RO", "RU", "RW", "SA", "SC", "SD", "SE", "SG", "SH", "SI", "SK", "SL", "SM", "SN", "SO", "SQ", "SR", "SS", "ST", "SU", "SV", "SW", "TA", "TE", "TG", "TH", "TI", "TK", "TL", "TN", "TO", "TR", "TS", "TT", "TW", "TY", "UG", "UK", "UR", "UZ", "VE", "VI", "VO", "WA", "WO", "XH", "YI", "YO", "ZA", "ZH", "ZU", "ZZ" ]
+      },
+      "Link" : {
+        "type" : "object",
+        "properties" : {
+          "deprecation" : {
+            "type" : "string"
+          },
+          "href" : {
+            "type" : "string"
+          },
+          "hreflang" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "profile" : {
+            "type" : "string"
+          },
+          "templated" : {
+            "type" : "boolean"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Links" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "$ref" : "#/components/schemas/Link"
+        }
+      },
+      "Lot" : {
+        "required" : [ "id", "version" ],
+        "type" : "object",
+        "properties" : {
+          "activities" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/EdisysActivity"
+            }
+          },
+          "awardCriteria" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AwardCriterion"
+            }
+          },
+          "beneficiaries" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Beneficiary"
+            }
+          },
+          "classifications" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Classification"
+            }
+          },
+          "conditionalTranche" : {
+            "type" : "string"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "estimatedAmount" : {
+            "$ref" : "#/components/schemas/MonetaryValue"
+          },
+          "executions" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Place"
+            }
+          },
+          "firmTranche" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "mainActivityDomains" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/MainActivityDomainEnum"
+            }
+          },
+          "maxRenewalDuration" : {
+            "$ref" : "#/components/schemas/Duration"
+          },
+          "maxResponseAmount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "minRenewalDuration" : {
+            "$ref" : "#/components/schemas/Duration"
+          },
+          "minResponseAmount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "string"
+          },
+          "order" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "placesCodes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PlaceCode"
+            }
+          },
+          "renewalCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "response" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "state" : {
+            "$ref" : "#/components/schemas/LotStateEnum"
+          },
+          "subActivityDomains" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SubActivityDomainEnum"
+            }
+          },
+          "timeFrame" : {
+            "$ref" : "#/components/schemas/TimeFrame"
+          },
+          "totalResponsesReceived" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "translations" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/LotTranslation"
+            }
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "LotStateEnum" : {
+        "type" : "string",
+        "enum" : [ "FUTURE", "ONGOING", "AWARDED", "NOT_AWARDED", "EXPIRED", "DISMISSED", "UNSUCCESSFUL", "UNSUCCESSFUL_DISMISSED" ]
+      },
+      "LotTranslation" : {
+        "required" : [ "language" ],
+        "type" : "object",
+        "properties" : {
+          "additionalInformation" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "language" : {
+            "$ref" : "#/components/schemas/LanguageEnum"
+          },
+          "object" : {
+            "type" : "string"
+          },
+          "scope" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "MainActivityDomainEnum" : {
+        "type" : "string",
+        "enum" : [ "STRUCTURAL_WORKS", "FINISHING_WORKS", "PUBLIC_WORKS", "MISCELLANEOUS" ]
+      },
+      "Manager" : {
+        "type" : "object",
+        "properties" : {
+          "directoryId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "fax" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "mails" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Email"
+            }
+          },
+          "telephones" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Telephone"
+            }
+          },
+          "translations" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ManagerTranslation"
+            }
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "ManagerTranslation" : {
+        "required" : [ "language" ],
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "language" : {
+            "$ref" : "#/components/schemas/LanguageEnum"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "MonetaryValue" : {
+        "type" : "object",
+        "properties" : {
+          "bottomValue" : {
+            "type" : "number"
+          },
+          "currencyCode" : {
+            "type" : "string"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "singleValue" : {
+            "type" : "number"
+          },
+          "topValue" : {
+            "type" : "number"
+          }
+        }
+      },
+      "MyDealOpportunitiesFilterRequest" : {
+        "type" : "object",
+        "properties" : {
+          "additionalFields" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AdditionalFieldEnum"
+            }
+          },
+          "archived" : {
+            "type" : "boolean"
+          },
+          "assignee" : {
+            "type" : "string"
+          },
+          "assigner" : {
+            "type" : "string"
+          },
+          "customFieldConfigurationIds" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          },
+          "customFieldFilters" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/CustomFieldFilters"
+            }
+          },
+          "favoritesFilter" : {
+            "$ref" : "#/components/schemas/FavoritesFilter"
+          },
+          "filters" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SearchFilter"
+            }
+          },
+          "geocoding" : {
+            "type" : "boolean"
+          },
+          "notPresentInCollaborativeMode" : {
+            "type" : "boolean"
+          },
+          "renewalFilter" : {
+            "$ref" : "#/components/schemas/RenewalFilter"
+          },
+          "requestedInterlocutorRoles" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RoleEnum"
+            }
+          }
+        }
+      },
+      "MyDealOpportunityDto" : {
+        "type" : "object",
+        "properties" : {
+          "assigner" : {
+            "$ref" : "#/components/schemas/AssignerDto"
+          },
+          "favoriteId" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }
+      },
+      "Notice" : {
+        "required" : [ "id", "version" ],
+        "type" : "object",
+        "properties" : {
+          "contract" : {
+            "$ref" : "#/components/schemas/Contract"
+          },
+          "documents" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DtvDocument"
+            }
+          },
+          "documentsAvailability" : {
+            "$ref" : "#/components/schemas/DocumentsAvailabilityEnum"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "noticeIndexation" : {
+            "$ref" : "#/components/schemas/NoticeIndexation"
+          },
+          "referenceId" : {
+            "type" : "string"
+          },
+          "referenceIdProvider" : {
+            "type" : "string"
+          },
+          "referenceIdSynonyms" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "source" : {
+            "$ref" : "#/components/schemas/NoticeSourceEnum"
+          },
+          "sourceId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/NoticeTypeEnum"
+          },
+          "url" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "NoticeContentTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "CALL_FOR_TENDERS", "CONSTRUCTION_PERMIT", "DESTRUCTION_PERMIT", "PRESCRIPTION", "UPSTREAM_PROJECT" ]
+      },
+      "NoticeDto" : {
+        "required" : [ "noticeIndexationPublication", "referenceId", "source" ],
+        "type" : "object",
+        "properties" : {
+          "noticeIndexationPublication" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "noticeType" : {
+            "$ref" : "#/components/schemas/NoticeTypeEnum"
+          },
+          "referenceId" : {
+            "type" : "string"
+          },
+          "source" : {
+            "$ref" : "#/components/schemas/NoticeSourceEnum"
+          }
+        }
+      },
+      "NoticeIndexation" : {
+        "type" : "object",
+        "properties" : {
+          "anticipation" : {
+            "$ref" : "#/components/schemas/Anticipation"
+          },
+          "boamp" : {
+            "$ref" : "#/components/schemas/Boamp"
+          },
+          "contentType" : {
+            "$ref" : "#/components/schemas/NoticeContentTypeEnum"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "international" : {
+            "$ref" : "#/components/schemas/International"
+          },
+          "joue" : {
+            "$ref" : "#/components/schemas/Joue"
+          },
+          "permit" : {
+            "$ref" : "#/components/schemas/PermitIndexation"
+          },
+          "prescription" : {
+            "$ref" : "#/components/schemas/Prescription"
+          },
+          "press" : {
+            "$ref" : "#/components/schemas/Press"
+          },
+          "publication" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "spainMadrid" : {
+            "$ref" : "#/components/schemas/SpainMadrid"
+          },
+          "spainMinfi" : {
+            "$ref" : "#/components/schemas/SpainMinfi"
+          },
+          "upstreamProject" : {
+            "$ref" : "#/components/schemas/UpstreamProject"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "NoticeSourceEnum" : {
+        "type" : "string",
+        "enum" : [ "BOAMP_V230", "BOAMP_V240", "BOAMP_V325", "JOUE_V2080201", "JOUE_V2080301", "JOUE_V2080401", "JOUE_V2080501", "JOUE_V2090101", "JOUE_V2090201", "JOUE_V2090301", "JOUE_V2090401", "JOUE_V2090501", "JOUE_EFORMS_V1", "PQR_IMAVIS_V2", "PQR_KAPOW_V1", "PQR_MANUAL", "PQR_TAMARIS", "PRESCRIPTION_V1", "PRESCRIPTION_V2", "SPAIN_MADRID_V280", "SPAIN_MINFI_V270" ]
+      },
+      "NoticeTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "PRIOR_INFORMATION", "PREQUALIFICATION", "CALL_FOR_TENDERS", "CORRECTION", "CANCELLATION", "SUBCONTRACT", "EXANTE_VOLUNTARY", "AWARD", "BUILDING_PERMIT", "DEMOLISHING_PERMIT", "PRESCRIPTION", "UPSTREAM_PROJECT", "RECTIFICATIF_AWARD", "OTHER" ]
+      },
+      "NutsVersionEnum" : {
+        "type" : "string",
+        "enum" : [ "NUTS_2003", "NUTS_2006", "NUTS_2010", "NUTS_2013", "NUTS_2016", "NUTS_2021", "NUTS_2024" ]
+      },
+      "Order" : {
+        "required" : [ "direction", "property" ],
+        "type" : "object",
+        "properties" : {
+          "direction" : {
+            "type" : "string",
+            "enum" : [ "ASC", "DESC" ]
+          },
+          "ignoreCase" : {
+            "type" : "boolean"
+          },
+          "nullHandling" : {
+            "type" : "string",
+            "enum" : [ "NATIVE", "NULLS_FIRST", "NULLS_LAST" ]
+          },
+          "property" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PageDealOpportunitySearchHitModel" : {
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DealOpportunitySearchHitModel"
+            }
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sort" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Order"
+            }
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "PageLot" : {
+        "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Lot"
+            }
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sort" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Order"
+            }
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "Permit" : {
+        "required" : [ "number" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/PermitStatusEnum"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "PermitAdditionalsEnum" : {
+        "type" : "string",
+        "enum" : [ "ABRI_JARDIN", "GARAGE", "PISCINE", "VERANDA", "AUTRE" ]
+      },
+      "PermitBuildingTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "AGRANDISSEMENT", "AUTRES_SUR_HABITATION", "AUTRES_CONSTRUCTION_LOGEMENTS", "AUTRES_CONSTRUCTION", "AUTRES_SUR_LOCAUX", "CONSTRUCTION_MAISON_INDIVIDUELLE", "CONSTRUCTION_LOCAUX", "CONSTRUCTION_LOGEMENTS_RESIDENCE", "DEMOLITION_MULTIPLE", "DEMOLITION_SIMPLE", "PROJET_SANS_SDP", "TRANSFORMATION_LOCAUX", "TRANSFORMATION_LOCAUX_EN_LOGEMENTS", "TRANSFORMATION_LOGEMENTS_EN_LOCAUX" ]
+      },
+      "PermitIndexation" : {
+        "type" : "object",
+        "properties" : {
+          "additionals" : {
+            "$ref" : "#/components/schemas/PermitAdditionalsEnum"
+          },
+          "buildingType" : {
+            "$ref" : "#/components/schemas/PermitBuildingTypeEnum"
+          },
+          "characteristicsCreatedCollectiveHousing" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "characteristicsCreatedHousing" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "characteristicsCreatedIndividualHousing" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "characteristicsHousing1Room" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "characteristicsHousing2Rooms" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "characteristicsHousing3Rooms" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "characteristicsHousing4Rooms" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "characteristicsHousing5Rooms" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "characteristicsHousing6RoomsAndOver" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "characteristicsMaxLevels" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "decision" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "landArea" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "landRegistry1" : {
+            "type" : "string"
+          },
+          "landRegistry2" : {
+            "type" : "string"
+          },
+          "landRegistry3" : {
+            "type" : "string"
+          },
+          "materialTypes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PermitMaterialTypeEnum"
+            }
+          },
+          "nature" : {
+            "$ref" : "#/components/schemas/PermitNatureEnum"
+          },
+          "number" : {
+            "type" : "string"
+          },
+          "premisesFeaturesLevels" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "premisesFeaturesRooms" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "projectAreaA" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "projectAreaB" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "projectAreaC" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "projectAreaD" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "projectAreaE1" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "projectAreaE2" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "projectAreaF" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "projectOwnerCategory" : {
+            "$ref" : "#/components/schemas/PermitProjectOwnerCategoryEnum"
+          },
+          "projectOwnerType" : {
+            "$ref" : "#/components/schemas/PermitProjectOwnerTypeEnum"
+          },
+          "projectTotalArea" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "publicServicesMaterialTypes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PermitPublicServicesMaterialTypeEnum"
+            }
+          },
+          "residenceAccommodation" : {
+            "$ref" : "#/components/schemas/PermitResidenceAccommodationEnum"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/PermitStatusEnum"
+          },
+          "submission" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "target" : {
+            "$ref" : "#/components/schemas/PermitTargetEnum"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/PermitTypeEnum"
+          },
+          "usingMode" : {
+            "$ref" : "#/components/schemas/PermitUsingModeEnum"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "workNature" : {
+            "$ref" : "#/components/schemas/PermitWorkNatureEnum"
+          }
+        }
+      },
+      "PermitMaterialTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "ARTISANAT", "BUREAU", "COMMERCE", "ENTREPOT", "EXPLOITATION_AGRICOLE_FORESTIERE", "HEBERGEMENT_HOTELIER", "INDUSTRIE", "SERVICE_PUBLIC_INTERET_COLLECTIF" ]
+      },
+      "PermitNatureEnum" : {
+        "type" : "string",
+        "enum" : [ "NEW_CONSTRUCTION", "MODIFICATION", "NOT_SPECIFIED" ]
+      },
+      "PermitProjectOwnerCategoryEnum" : {
+        "type" : "string",
+        "enum" : [ "ASSOCIATIONS", "COLLECTIVITES_LOCALES", "EPIC", "OPH_ESH", "PARTICULIERS", "PROMOTEURS", "SCI", "SEM", "SICOMI", "NON_DETERMINE" ]
+      },
+      "PermitProjectOwnerTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "PRIVATE", "PUBLIC" ]
+      },
+      "PermitPublicServicesMaterialTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "ACTION_SOCIALE", "CULTURE_LOISIR", "ENSEIGNEMENT_RECHERCHE", "OUVRAGE_SPECIAL", "SANTE", "TRANSPORT" ]
+      },
+      "PermitResidenceAccommodationEnum" : {
+        "type" : "string",
+        "enum" : [ "STUDENTS", "SOCIAL_HOUSING", "DISABLED_PEOPLE", "ELDERLY", "SOCIAL", "TOURISM", "OTHER" ]
+      },
+      "PermitStatusEnum" : {
+        "type" : "string",
+        "enum" : [ "SUBMISSION", "AUTHORIZATION", "REFUSAL" ]
+      },
+      "PermitTargetEnum" : {
+        "type" : "string",
+        "enum" : [ "PREMISES", "ACCOMMODATIONS" ]
+      },
+      "PermitTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "BUILD", "DEMOLISH" ]
+      },
+      "PermitUsingModeEnum" : {
+        "type" : "string",
+        "enum" : [ "LOCATION", "PERSONNELLE", "RESIDENCE_PRINCIPALE", "RESIDENCE_SECONDAIRE", "VENTE" ]
+      },
+      "PermitWorkNatureEnum" : {
+        "type" : "string",
+        "enum" : [ "EXTENSION", "SURELEVATION", "CREATION_NIVEAUX_SUPPLEMENTAIRES" ]
+      },
+      "Place" : {
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "string"
+          },
+          "city" : {
+            "type" : "string"
+          },
+          "countryCode" : {
+            "type" : "string"
+          },
+          "departmentCode" : {
+            "type" : "string"
+          },
+          "empty" : {
+            "type" : "boolean"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "geocoding" : {
+            "$ref" : "#/components/schemas/Geocoding"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "inseeCode" : {
+            "type" : "string"
+          },
+          "nutsCode" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "zipCode" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PlaceCode" : {
+        "type" : "object",
+        "properties" : {
+          "countryCode" : {
+            "type" : "string"
+          },
+          "departementCode" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "PlaceCodeDto" : {
+        "required" : [ "countryCode" ],
+        "type" : "object",
+        "properties" : {
+          "countryCode" : {
+            "type" : "string"
+          },
+          "departementCode" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PlaceDto" : {
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "string"
+          },
+          "city" : {
+            "type" : "string"
+          },
+          "countryCode" : {
+            "type" : "string"
+          },
+          "departmentCode" : {
+            "type" : "string"
+          },
+          "geocoding" : {
+            "$ref" : "#/components/schemas/GeocodingDto"
+          },
+          "inseeCode" : {
+            "type" : "string"
+          },
+          "nutsCode" : {
+            "type" : "string"
+          },
+          "zipCode" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Prescription" : {
+        "type" : "object",
+        "properties" : {
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "linkedPermitNumbers" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "reference" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Press" : {
+        "type" : "object",
+        "properties" : {
+          "contractTypes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PressContractTypeEnum"
+            }
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "firstExtracted" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "procedure" : {
+            "$ref" : "#/components/schemas/PressProcedureEnum"
+          },
+          "projectManagers" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProjectManager"
+            }
+          },
+          "source" : {
+            "$ref" : "#/components/schemas/PressSourceEnum"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "webPlatform" : {
+            "type" : "string"
+          },
+          "website" : {
+            "type" : "string"
+          },
+          "websiteIdentifier" : {
+            "type" : "string"
+          },
+          "websiteRobotTracker" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "PressContractTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "CONSTRUCTION", "DESIGN_AND_STUDIES", "SUPPLIES", "MIXED", "SERVICES", "WORKS" ]
+      },
+      "PressProcedureEnum" : {
+        "type" : "string",
+        "enum" : [ "CANCELLED", "OPEN_CONTRACT_PROCEDURE", "RESTRICTED_CONTRACT_PROCEDURE", "PERFORMANCES_CONTRACT_PROCEDURE", "CALL_FOR_CANDIDATURES", "PROJECT_PROCEDURE", "CALL_FOR_PROPOSALS", "CONTRACT_AWARDS", "CORRECTION_NOTICE", "OPEN_DESIGN_CONTEST", "RESTRICTED_DESIGN_CONTEST", "COMPETITIVE_DIALOG", "PUBLIC_SERVICE_DELEGATION", "PROJECT_MANAGEMENT", "NEGOTIATED_PROCEDURE", "PRIVATE_PROCEDURE", "PROCEDURE_WITHOUT_FORMALISM", "SIMPLIFIED_CALL_FOR_TENDERS", "ADAPTED_PROCEDURE", "RESTRICTED_PROCEDURE", "SUBVENTIONS", "OTHER" ]
+      },
+      "PressSourceEnum" : {
+        "type" : "string",
+        "enum" : [ "SPIGAO", "BOAMP", "JOUE", "PQR", "SITE", "BOAMP_A", "BOAMP_B", "BOAMP_MAPA", "BOAMP_DEFENSE", "PRESS" ]
+      },
+      "PriceUndertakingEnum" : {
+        "type" : "string",
+        "enum" : [ "FIXED", "UNITARY", "MIX" ]
+      },
+      "Principal" : {
+        "type" : "object",
+        "properties" : {
+          "buyerProfileUrl" : {
+            "type" : "string"
+          },
+          "directoryId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "fax" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "mails" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Email"
+            }
+          },
+          "manager" : {
+            "$ref" : "#/components/schemas/Manager"
+          },
+          "nationalId" : {
+            "type" : "string"
+          },
+          "place" : {
+            "$ref" : "#/components/schemas/Place"
+          },
+          "telephones" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Telephone"
+            }
+          },
+          "translations" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PrincipalTranslation"
+            }
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/PrincipalTypeEnum"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "websites" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Website"
+            }
+          }
+        }
+      },
+      "PrincipalDto" : {
+        "required" : [ "translations" ],
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "nationalId" : {
+            "type" : "string"
+          },
+          "place" : {
+            "$ref" : "#/components/schemas/PlaceDto"
+          },
+          "translations" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PrincipalTranslationDto"
+            }
+          },
+          "website" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PrincipalTranslation" : {
+        "required" : [ "language" ],
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "language" : {
+            "$ref" : "#/components/schemas/LanguageEnum"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "PrincipalTranslationDto" : {
+        "required" : [ "language", "name" ],
+        "type" : "object",
+        "properties" : {
+          "language" : {
+            "$ref" : "#/components/schemas/LanguageEnum"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PrincipalTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "BUSINESS", "INDIVIDUAL", "PUBLIC_NATIONAL_FEDERAL_AUTHORITY", "PUBLIC_ARMED_FORCES", "PUBLIC_REGIONAL_LOCAL_AUTHORITY", "PUBLIC_UTILITIES_ENTITY", "PUBLIC_EUROPEAN_INSTITUTION", "PUBLIC_BODY_GOVERNED_BY_PUBLIC_LAW", "PUBLIC_OTHER", "PUBLIC_NOT_APPLICABLE", "PUBLIC_NATIONAL_FEDERAL_AGENCY_OFFICE", "PUBLIC_REGIONAL_LOCAL_AGENCY_OFFICE", "PUBLIC_NOT_SPECIFIED" ]
+      },
+      "PriorityEnum" : {
+        "type" : "string",
+        "enum" : [ "CRITICAL", "HIGH", "MEDIUM", "LOW", "LOWEST" ]
+      },
+      "ProcedureEnum" : {
+        "type" : "string",
+        "enum" : [ "OPEN_PROCEDURE", "ACCELERATED_OPEN_PROCEDURE", "RESTRICTED_PROCEDURE", "ACCELERATED_RESTRICTED_PROCEDURE", "NEGOTIATED_PROCEDURE", "ACCELERATED_NEGOTIATED_PROCEDURE", "NEGOTIATED_PROCEDURE_WITH_PRIOR_PUBLICATION", "NEGOTIATED_PROCEDURE_WITHOUT_PRIOR_PUBLICATION", "NEGOTIATED_PROCEDURE_WITHOUT_CALL_FOR_COMPETITION", "ADAPTED_PROCEDURE", "COMPETITIVE_DIALOGUE", "OPEN_CONTEST", "RESTRICTED_CONTEST", "DIRECT_AWARD", "CONTRACT_AWARD_WITH_PRIOR_PUBLICATION", "CONTRACT_AWARD_WITHOUT_PRIOR_PUBLICATION", "INNOVATION_PARTNERSHIP", "COMPETITIVE_PROCEDURE_WITH_NEGOTIATION", "CONCESSION_AWARD_PROCEDURE", "CONCESSION_AWARD_WITHOUT_PRIOR_CONCESSION_NOTICE", "NOT_APPLICABLE", "NOT_SPECIFIED", "OTHER", "OPEN_CALL_FOR_TENDERS", "RESTRICTED_CALL_FOR_TENDERS", "OTHER_NEGOTIATED_CONTRACTS", "PUBLIC_SERVICE_DELEGATION", "PROJECT_MANAGEMENT_WITH_CONTEST", "NEGOTIATED_PROJECT_MANAGEMENT", "CONCEPTION_REALISATION_CONTRACT", "PROJECT_MANAGEMENT_CONTRACT", "SIMPLIFIED_CALL_FOR_TENDERS", "PROJECT_MANAGEMENT_AFTER_OPEN_CALL_FOR_TENDERS", "PROJECT_MANAGEMENT_AFTER_RESTRICTED_CALL_FOR_TENDERS", "NEGOTIATED_CONTRACT_AFTER_UNSUCCESSFUL_CALL_FOR_TENDERS", "PROJECT_MANAGEMENT_WITHOUT_CONTEST", "NOTICE_FOR_TWELVE_MONTH", "PRIOR_INFORMATION", "OPEN_PROCEDURE_WITH_RECURRING_QUANTITIES", "CONTRACT_AWARDS", "GENERAL_INFORMATION", "DESIGN_CONTEST", "CALL_FOR_EXPRESSIONS_OF_INTEREST", "QUALIFICATION_SYSTEM", "RESULTS_OF_DESIGN_CONTESTS", "CONTRACT_AWARD_WITH_PRIOR_JOUE_PUBLICATION", "CONTRACT_AWARD_WITHOUT_PRIOR_JOUE_PUBLICATION" ]
+      },
+      "ProgressEnum" : {
+        "type" : "string",
+        "enum" : [ "PROJECT", "PROGRAMMER_SELECTED", "SELECTED_DESIGN", "DESIGN_STUDY", "STUDIES", "SUBMITTED_BUILD_PERMIT", "GRANTED_BUILD_PERMIT", "PROJECT_STUDY", "BUSINESS_CONSULTATION", "SELECTED_BUSINESS", "PROJECT_CANCELED", "DONE_TENDER", "WORK_STARTED", "WORK_COMPLETED" ]
+      },
+      "ProjectManager" : {
+        "type" : "object",
+        "properties" : {
+          "directoryId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "faxes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Telephone"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "mails" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Email"
+            }
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "nationalId" : {
+            "type" : "string"
+          },
+          "place" : {
+            "$ref" : "#/components/schemas/Place"
+          },
+          "telephones" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Telephone"
+            }
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "websites" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Website"
+            }
+          }
+        }
+      },
+      "ProjectTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "PUBLIC", "PRIVATE", "UNKNOWN" ]
+      },
+      "RenewalFilter" : {
+        "type" : "object",
+        "properties" : {
+          "originalFavoritesFilter" : {
+            "$ref" : "#/components/schemas/FavoritesFilter"
+          },
+          "renewalView" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "RoleEnum" : {
+        "type" : "string",
+        "enum" : [ "UNKNOWN", "ARCHITECT", "PROJECT_MANAGER", "PROJECT_OWNER", "ECONOMIST", "DESIGN_OFFICE", "PROGRAMMER", "SURVEYOR", "TECHNICAL_CONTROLLER", "REPORTER", "LANDSCAPE_ARCHITECT", "DELEGATE_PROJECT_OWNER", "PROMOTER", "GENERAL_CONTRACTOR", "BUYER", "SOIL_SURVEY_ENGINEER", "SPS_ENGINEER", "REPRESENTATIVE", "TOWN_PLANNER", "DESIGN_OFFICE_FLUID", "DESIGN_OFFICE_STRUCTURES", "DESIGN_OFFICE_ACOUSTIC", "DESIGN_OFFICE_ROAD", "DESIGN_OFFICE_GENERAL", "DESIGN_OFFICE_THERMAL", "DESIGN_OFFICE_ENVIRONMENT", "DESIGN_OFFICE_GEOTECH", "DESIGN_OFFICE_ELECTRICITY", "DESIGN_OFFICE_KITCHEN", "OPC_ENGINEER", "SET_DESIGNER", "OTHER", "DESIGN_OFFICE_LIGHTING", "SECONDARY_PRINCIPAL" ]
+      },
+      "SearchContextTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "CONTRACTS", "RENEWALS", "TERRITORIAL_DOCUMENTS", "SEARCH_BY_NATIONAL_ID" ]
+      },
+      "SearchFilter" : {
+        "type" : "object",
+        "properties" : {
+          "fields" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/FilterableFieldEnum"
+            }
+          },
+          "operator" : {
+            "$ref" : "#/components/schemas/SearchOperator"
+          },
+          "values" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "SearchHitMetadata" : {
+        "required" : [ "documentsMatch" ],
+        "type" : "object",
+        "properties" : {
+          "documentsMatch" : {
+            "type" : "boolean"
+          },
+          "highlightDocuments" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/HighlightDocumentsMessage"
+              }
+            }
+          },
+          "highlightFields" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      },
+      "SearchOperator" : {
+        "type" : "string",
+        "enum" : [ "EQUALS", "LESS_THAN", "GREATER_THAN", "BEGIN_WITH", "CONTAINS", "GEO_BOX_INSIDE", "BETWEEN" ]
+      },
+      "SingleMonetaryValue" : {
+        "required" : [ "currencyCode", "singleValue" ],
+        "type" : "object",
+        "properties" : {
+          "currencyCode" : {
+            "type" : "string"
+          },
+          "singleValue" : {
+            "type" : "number"
+          }
+        }
+      },
+      "SpainMadrid" : {
+        "type" : "object",
+        "properties" : {
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "procedure" : {
+            "$ref" : "#/components/schemas/SpainMadridProcedureEnum"
+          }
+        }
+      },
+      "SpainMadridProcedureEnum" : {
+        "type" : "string",
+        "enum" : [ "OPEN_PROCEDURE", "RESTRICTED_PROCEDURE", "NEGOTIATED_PROCEDURE_WITHOUT_PRIOR_PUBLICATION", "NEGOTIATED_PROCEDURE_WITH_PRIOR_PUBLICATION", "COMPETITIVE_DIALOGUE", "MINOR_CONTRACT", "DERIVED_FROM_FRAMEWORK_AGREEMENT", "INTERNAL_RULES", "OTHER", "DESIGN_CONTEST", "SIMPLIFIED_CALL_FOR_TENDERS", "INNOVATION_PARTNERSHIP", "NEGOTIATED_PROCEDURE" ]
+      },
+      "SpainMinfi" : {
+        "type" : "object",
+        "properties" : {
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "procedure" : {
+            "$ref" : "#/components/schemas/SpainMinfiProcedureEnum"
+          }
+        }
+      },
+      "SpainMinfiProcedureEnum" : {
+        "type" : "string",
+        "enum" : [ "OPEN_PROCEDURE", "RESTRICTED_PROCEDURE", "NEGOTIATED_PROCEDURE_WITHOUT_PRIOR_PUBLICATION", "NEGOTIATED_PROCEDURE_WITH_PRIOR_PUBLICATION", "COMPETITIVE_DIALOGUE", "MINOR_CONTRACT", "DERIVED_FROM_FRAMEWORK_AGREEMENT", "INTERNAL_RULES", "OTHER", "DESIGN_CONTEST", "SIMPLIFIED_CALL_FOR_TENDERS", "INNOVATION_PARTNERSHIP", "NEGOTIATED_PROCEDURE" ]
+      },
+      "SubActivityDomainEnum" : {
+        "type" : "string",
+        "enum" : [ "STRUCTURE_SCAFFOLDING_LIFTING", "COVERING_ZING_WORK", "WATERTIGHTNESS_PROTECTION", "MASONRY", "IRONWORK", "ALL_BUILDING_TRADES_AND_PROFESSIONS", "ELEVATORS", "HEATING_AIR_CONDITIONING_VENTILATION", "ELECTRICITY_ALARM_PHONE_SIGNS", "FITTINGS_LAYOUT_FURNITURE", "CARPENTRY", "PAINTWORK_FACADE_RENOVATION", "PLASTERWORK_PARTITIONS_INSULATION", "PLUMBING", "FLOOR_WALL_COVERING", "GLASS_MIRRORS", "FENCES", "METAL_STRUCTURES", "WASTE_PURIFICATION", "DEMOLITION", "ASBESTOS_REMOVAL", "GREEN_SPACES_WATERING", "SPECIAL_FOUNDATIONS", "DRILLING", "CIVIL_ENGINEERING", "STREET_FURNITURE", "WORKS_OF_ART", "WET_PIPELINES", "DRY_PIPELINES", "MARKINGS", "BORING", "EARTHWORKS_EXPLOSIVES", "ELECTRIC_WORKS", "MARITIME_FLUVIAL_WORKS", "ROAD_WORKS", "UNDERGROUND_WORKS", "RAILWAY", "ROADS_GRIDS_MISCELLANEOUS", "MISCELLANEOUS" ]
+      },
+      "SubTargetEnum" : {
+        "type" : "string",
+        "enum" : [ "INDIVIDUAL_HOUSING", "POLICE_STATION", "OFFICE", "CITY_HALL_COURTS_PUBLIC_BUILDING", "MALL", "OTHER_TRADE", "CAFE_RESTAURANT", "FACTORY_WORKSHOP_LAB", "WAREHOUSE_LOGISTICS_CENTER", "STORAGE", "PARKING", "GARAGE_WASH_AREA_GAS_STATION", "RAILWAY_TRAM_URBAN_TRANSPORT", "AIR_TERMINAL_STATION", "PRIMARY_SCHOOL", "HIGH_SCHOOL_COLLEGE", "UNIVERSITY", "HOSPITAL_CLINIC", "RETREAT_HOUSE", "MEDICAL_CENTER_HEALTH_CONSULTATION_CENTER", "RESEARCH_CENTER", "COLLECTIVE_HOUSING", "FUNERAL_FACILITY", "NURSERY", "RESCUE_CENTER_FIREFIGHTERS", "PRISON_BARRACK_MILITARY_PLANT", "COMMUNAL_BUILDING", "WORSHIP_PLACE", "LIBRARY_ARCHIVE_MUSEUM", "LEISURE_NATURE_PARK", "SPECTACLE_HALL_CONVENTION_CENTER_THEATER", "CAMPING", "STADIUM_POOL_FITNESS", "LEISURE_CENTER", "EXHIBITION_PARK", "HOTEL_HOLIDAY_VILLAGE", "HISTORICAL_MONUMENT", "PURIFICATION_STATION_WATER_TOWER_TREATMENT", "EXTRACTION_PRODUCTION", "TREATMENT_GARBAGE_WASTE", "PIPELINE_SANITATION", "PRETREATMENT_WATER_RETENTION_BASIN", "BRIDGE_ROAD_TUNNEL_DOCK_BANK", "GREEN_AREA_URBAN_FURNITURE", "PUBLIC_LIGHTING", "URBAN_REDEVELOPMENT_PEDESTRIAN_WALKWAY", "DEVELOPMENT_ZONE", "OTHER", "TRANSFORMATION_TRANSPORT_ENERGY", "SLAUGHTERHOUSE_LIVESTOCK_BUILDING", "STUDENT_RESIDENCE" ]
+      },
+      "SupplementaryClassification" : {
+        "type" : "object",
+        "properties" : {
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "order" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "supplementaryCode" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "TargetEnum" : {
+        "type" : "string",
+        "enum" : [ "HOUSING", "OFFICES", "BUSINESS", "INDUSTRIAL_BUILDINGS", "NON_AGRICULTURAL_STORAGE", "AGRICULTURAL_BUILDING", "PARKING", "TRANSPORTATION_COLLECTIVE_EQUIPMENT", "TEACHING_TRAINING_RESEARCH_COLLECTIVE_EQUIPMENT", "HEALTH_COLLECTIVE_EQUIPMENT", "HYGIENE_SOCIAL_ACTION_COLLECTIVE_EQUIPMENT", "CULTURE_LEISURE_COLLECTIVE_EQUIPMENT", "LODGING", "SPECIAL_WORKS", "PUBLIC_WORKS", "OTHER" ]
+      },
+      "Telephone" : {
+        "type" : "object",
+        "properties" : {
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "TimeFrame" : {
+        "type" : "object",
+        "properties" : {
+          "duration" : {
+            "type" : "number"
+          },
+          "durationType" : {
+            "$ref" : "#/components/schemas/DurationTypeEnum"
+          },
+          "end" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "start" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "TinyInterlocutorDto" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "countryCode" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "nationalId" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UpstreamProject" : {
+        "type" : "object",
+        "properties" : {
+          "aboveGroundFloorsCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "buildingsCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "decision" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "end" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "landArea" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "livingArea" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "origin" : {
+            "$ref" : "#/components/schemas/UpstreamProjectOriginEnum"
+          },
+          "progress" : {
+            "$ref" : "#/components/schemas/UpstreamProjectProgressEnum"
+          },
+          "projectContactRole" : {
+            "$ref" : "#/components/schemas/UpstreamProjectProjectContactRoleEnum"
+          },
+          "projectOwnerCategory" : {
+            "$ref" : "#/components/schemas/UpstreamProjectProjectOwnerCategoryEnum"
+          },
+          "reference" : {
+            "type" : "string"
+          },
+          "start" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "undergroundFloorsCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "workType" : {
+            "$ref" : "#/components/schemas/UpstreamProjectWorkTypeEnum"
+          }
+        }
+      },
+      "UpstreamProjectOriginEnum" : {
+        "type" : "string",
+        "enum" : [ "ARRETE_PREFECTORAL", "CDAC_CNAC", "ENQUETE_PUBLIQUE", "PERMIS_CONSTRUIRE", "PERMIS_DEMOLIR", "PROJET_DELIB_ORDRE_JOUR", "PROJETS_INVESTISSEMENTS_PRIVES", "PROJETS_INVESTISSEMENTS_PUBLICS", "PROJETS_INVESTISSEMENTS_PRIVES_DELIB_PUBLIQUE", "PROJETS_INVESTISSEMENTS_PUBLICS_DELIB_PUBLIQUE", "AUTRES" ]
+      },
+      "UpstreamProjectProgressEnum" : {
+        "type" : "string",
+        "enum" : [ "DECISION", "PROGRAM_AND_PRELIMINARY_STUDIES", "PROJECT_MANAGER_APPOINTMENT", "DESIGN_AND_STUDIES", "UPSTREAM_PROJECT", "BUILDING_PERMIT_SUBMISSION" ]
+      },
+      "UpstreamProjectProjectContactRoleEnum" : {
+        "type" : "string",
+        "enum" : [ "UNKNOWN", "ARCHITECT", "PROJECT_MANAGER", "PROJECT_OWNER", "ECONOMIST", "DESIGN_OFFICE", "PROGRAMMER", "SURVEYOR", "TECHNICAL_CONTROLLER", "REPORTER", "LANDSCAPE_ARCHITECT", "DELEGATE_PROJECT_OWNER", "PROMOTER", "GENERAL_CONTRACTOR", "BUYER", "SOIL_SURVEY_ENGINEER", "SPS_ENGINEER", "REPRESENTATIVE", "TOWN_PLANNER" ]
+      },
+      "UpstreamProjectProjectOwnerCategoryEnum" : {
+        "type" : "string",
+        "enum" : [ "COLLECTIVITES_LOCALES", "ENTREPRISE", "ETAT", "OPHLM", "PARTICULIER", "SEM", "HLM", "SCI", "OTHER" ]
+      },
+      "UpstreamProjectWorkTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "EXISTING_ACCOMMODATIONS_EXTENSION", "OTHER_HOUSE_OPERATIONS", "OTHER_ACCOMMODATIONS_BUILDINGS", "OTHER_BUILDINGS_OPERATIONS", "OTHER_PREMISES_OPERATIONS" ]
+      },
+      "UserModel" : {
+        "required" : [ "creation", "disabledBySystem", "email", "enabled", "firstName", "fullName", "id", "lastName", "locale", "newsletter", "organizationId", "singleSignOnEnabled", "verified" ],
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "civility" : {
+            "type" : "string",
+            "enum" : [ "MISTER", "MADAM" ]
+          },
+          "creation" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "disabledBySystem" : {
+            "type" : "boolean"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "enabled" : {
+            "type" : "boolean"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "fullName" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "information" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "locale" : {
+            "type" : "string",
+            "format" : "locale",
+            "example" : "fr_FR"
+          },
+          "newsletter" : {
+            "type" : "boolean"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "phoneNumber" : {
+            "type" : "string"
+          },
+          "singleSignOnEnabled" : {
+            "type" : "boolean"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "verified" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "ViewerDto" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Website" : {
+        "type" : "object",
+        "properties" : {
+          "errorCorrelationId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "errors" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "website" : {
+            "type" : "string"
+          }
+        }
+      },
+      "WorksTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "NEW_CONSTRUCTION", "EXTENSION", "ADDITIONAL_LEVEL", "CHANGE_OF_DESTINATION", "BUILDING_WITHOUT_FOUNDATIONS", "OTHERS", "NEW_SITING", "RENOVATION", "MODERNISATION", "DEMOLITION", "EXISTING_CONSTRUCTION" ]
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer"
+      },
+      "OpenID" : {
+        "type" : "openIdConnect",
+        "openIdConnectUrl" : "https://sso.intescia.com/realms/intescia/.well-known/openid-configuration"
+      }
+    }
+  }
+}
