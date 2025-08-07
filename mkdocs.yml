@@ -23,5 +23,7 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/intescia-group
+  version:
+    provider: mike
 extra_css:
   - css/mkdocs.css
