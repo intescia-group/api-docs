@@ -1,0 +1,191 @@
+{
+  "openapi" : "3.0.4",
+  "info" : {
+    "title" : "Intescia Api",
+    "version" : "v1"
+  },
+  "servers" : [ {
+    "url" : "https://v1.api.intescia.dev",
+    "description": "v1 API"
+  } ],
+  "security" : [ {
+    "BearerAuth" : [ ]
+  }, {
+    "OpenID" : [ ]
+  } ],
+  "paths" : {
+    "/me" : {
+      "get" : {
+        "tags" : [ "CurrentUser" ],
+        "operationId" : "getCurrentUser",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/hal+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CurrentUserModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "AuthorityEnum" : {
+        "type" : "string",
+        "enum" : [ "AGENDA_ACCESS", "ALLOTMENT_BI_READ", "ALLOTMENT_CREATE", "ALLOTMENT_ISSUES_TRACKING", "ALLOTMENT_ISSUES_PROCESS", "ALLOTMENT_MANUFACTURING", "APP_ADMIN", "APP_BI", "APP_CUSTOMER_SERVICE", "APP_DESKTOP", "APP_DIE_MANUFACTURING", "APP_PRODUCTION", "APP_PROPOSAL_MANAGEMENT", "APP_SANDBOX_WANAO", "APP_SCORES", "ATTACHMENTS_ANALYZE", "ATTACHMENT_TASKS_PROCESS", "ATTACHMENT_TASKS_TRACKING", "BI_DASHBOARD_MANAGE", "BI_DASHBOARD_VIEW", "BI_PROFILE_TRANSFER", "CONTRACT_RENEWAL_MANAGE", "CAPITAL_LINK_ISSUES_CREATE", "CAPITAL_LINK_ISSUES_PROCESS", "CONTRACTS_ASSIGN", "CONTRACTS_EXPORT", "CONTRACTS_FAVORITE", "CONTRACT_CHANGE_LOGS_ACCESS", "CONTRACT_FIELDS_CRUD", "CONTRACT_FUSION", "CONTRACT_IMPORTS_EXECUTE", "CONTRACT_IMPORTS_MANAGE", "CONTRACT_IMPORTS_SPAIN_EXECUTE", "CONTRACT_IMPORTS_SPAIN_MANAGE", "CONTRACT_PUSHES_CRUD", "COST_MANAGE", "CREDIT_SELF_INCREMENT", "CRM_EXPORT", "CUSTOMER_RESPONSES_MANAGE", "CUSTOMER_SERVICE_ORGANIZATION_CONFIG", "CUSTOMER_SERVICE_STATISTICS_READ", "CUSTOMER_SERVICE_ORGANIZATIONS_READ", "CUSTOMER_SERVICE_ORGANIZATIONS_CANEVA_READ", "CUSTOMER_SERVICE_USERS_EXPORT", "CUSTOMER_SERVICE_PROPOSAL_MANAGE", "CUSTOMER_SERVICE_USERS_READ", "CUSTOMER_SERVICE_USERS_WRITE", "CUSTOMER_SERVICE_USER_GROUPS_READ", "CUSTOMER_SERVICE_USER_GROUPS_WRITE", "CUSTOMER_SERVICE_QUERIES_WRITE", "CUSTOMER_SERVICE_SEARCH_PROFILES_WRITE", "CUSTOMER_SERVICE_PUSH_WRITE", "CUSTOMER_SERVICE_MONITORING_WRITE", "CUSTOMER_SERVICE_COLLABORATIVE", "CUSTOMER_SERVICE_SSO_MANAGE", "DCE_ISSUES_PROCESS", "DCE_ISSUES_TRACKING", "DCE_REQUEST_DOWNLOAD", "DESKTOP_HOME_ACCESS", "DETACHMENT_TASKS_WRITE", "DIE_MANUFACTURING_TRACKING", "DIE_ORDER", "DIE_ORDER_TRACKING", "DIE_PREPARATION_TRACKING", "DIE_PREPARE", "DIE_VIEW", "ECONOMIC_OPERATOR_IMPORTS_EXECUTE", "ECONOMIC_OPERATOR_IMPORTS_MANAGE", "EIFFAGE_PROXY", "EXPLORE_AI_SUMMARY_READ", "EXPORTS_TRACKING", "FINANCIAL_INSIGHT_MONITORING_ACCESS", "FINANCIAL_INSIGHT_WALLET_ACCESS", "FINANCIAL_INSIGHT_ESTABLISHMENTS_COMPARE", "FINANCIAL_INSIGHT_CHATBOT_CREDIT_ACCESS", "FINANCIAL_INSIGHT_CALCULATIONS_DETAILS", "FINANCIAL_INSIGHT_BENEFICIAL_OWNERS_ACCESS", "GROUPS_ADMIN", "GROUPS_ADMIN_AI_SUMMARY", "GROUPS_ADMIN_AI_ANALYSES", "GROUPS_MANAGE", "HELP_ACCESS", "INDISCORE_ISSUES_CREATE", "INDISCORE_ISSUES_PROCESS", "ISSUES_REGIONAL_FILTERS_MANAGE", "ISSUES_REGIONAL_FILTERS_SELECT", "ISSUES_TRACKING", "KAPOW_TRACKED_DCE_NOTICES_SYNC", "KAPOW_DOCUMENTS_CMP_READ", "KAPOW_DOCUMENTS_HELIOS_WRITE", "KAPOW_USER_QUESTIONS", "TERRITORIAL_DOCUMENT_SEARCH", "TERRITORIAL_DOCUMENT_IMPORTS_EXECUTE", "TERRITORIAL_DOCUMENT_IMPORTS_MANAGE", "MY_CONTRACTS_ACCESS", "PORTFOLIO_ACCESS", "PORTFOLIO_EXPORT", "PORTFOLIO_IMPORT_CORPORAMA", "PREFERENCES_ACCESS", "CONFIDENTIAL_CONTRACT_CREATE", "PROPOSAL_KIT_MANAGE", "PROPOSAL_MANAGE", "QUALITY_ISSUES_CREATION", "QUALITY_ISSUES_HISTORY", "QUALITY_ISSUES_PROCESS", "QUESTION_ANSWER_TRACKING", "RAW_DATA_MANAGE", "RELOCATION_SEARCH", "RELOCATION_IMPORTS_EXECUTE", "RELOCATION_IMPORTS_MANAGE", "SALESFORCE_ID_EDIT", "SALESFORCE_SYNC", "SEARCH_EXECUTE", "SEARCH_PROFILES_CRUD", "STATISTICS_ACCESS", "TECHNICAL_ISSUES_PROCESS", "TRACKED_DCE_ISSUES_PROCESS", "TRACKED_DCE_ISSUES_TRACKING", "WANAO_ALLOTMENT", "WANAO_DCE_TRACKING", "WANAO_USER_QUESTIONS", "WORK_LISTS_MANAGE" ]
+      },
+      "CurrentUserModel" : {
+        "required" : [ "email", "firstName", "fullName", "id", "lastName", "locale", "newsletter", "singleSignOnEnabled" ],
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "authorities" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AuthorityEnum"
+            }
+          },
+          "civility" : {
+            "type" : "string",
+            "enum" : [ "MISTER", "MADAM" ]
+          },
+          "creation" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "enabled" : {
+            "type" : "boolean"
+          },
+          "featureFlags" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/FeatureFlagModel"
+            }
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "fullName" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "information" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "licences" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/LicenceTypeEnum"
+            }
+          },
+          "locale" : {
+            "type" : "string"
+          },
+          "newsletter" : {
+            "type" : "boolean"
+          },
+          "phoneNumber" : {
+            "type" : "string"
+          },
+          "scopes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AuthorityEnum"
+            }
+          },
+          "singleSignOnEnabled" : {
+            "type" : "boolean"
+          },
+          "title" : {
+            "type" : "string"
+          }
+        }
+      },
+      "FeatureFlagModel" : {
+        "required" : [ "enabled", "name" ],
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "enabled" : {
+            "type" : "boolean"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      },
+      "LicenceTypeEnum" : {
+        "type" : "string",
+        "enum" : [ "BUSINESS_INSIGHT_STANDARD", "BUSINESS_INSIGHT_GUEST", "FINANCIAL_INSIGHT", "PROPOSAL_MANAGEMENT", "INTERNAL" ]
+      },
+      "Link" : {
+        "type" : "object",
+        "properties" : {
+          "deprecation" : {
+            "type" : "string"
+          },
+          "href" : {
+            "type" : "string"
+          },
+          "hreflang" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "profile" : {
+            "type" : "string"
+          },
+          "templated" : {
+            "type" : "boolean"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Links" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "$ref" : "#/components/schemas/Link"
+        }
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "type" : "http",
+        "description" : "Enter directly your bearer token",
+        "scheme" : "bearer"
+      },
+      "OpenID" : {
+        "type" : "openIdConnect",
+        "openIdConnectUrl" : "https://sso.dev.intescia.com/realms/intescia/.well-known/openid-configuration"
+      }
+    }
+  }
+}
