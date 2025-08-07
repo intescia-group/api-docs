@@ -1,0 +1,16 @@
+site_name: Intescia Insight API Documentation
+site_author: Intescia Group
+repo_url: https://github.com/intescia-group/api-docs
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+plugins:
+  - search
+nav:
+  - Home: index.md
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/intescia-group
