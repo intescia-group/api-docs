@@ -26,4 +26,4 @@ extra:
   version:
     provider: mike
 extra_css:
-  - css/mkdocs.css
+  - css/extra.css
