@@ -1,12 +1,12 @@
 {
-  "openapi" : "3.0.4",
+  "openapi" : "3.0.1",
   "info" : {
-    "title" : "Intescia Api",
+    "title" : "Intescia API",
     "version" : "v1"
   },
   "servers" : [ {
     "url" : "https://v1.api.intescia.dev",
-    "description": "v1 API"
+    "description" : "v1 API"
   } ],
   "security" : [ {
     "BearerAuth" : [ ]
@@ -107,10 +107,6 @@
   },
   "components" : {
     "schemas" : {
-      "AdditionalFieldEnum" : {
-        "type" : "string",
-        "enum" : [ "AWARDED_AMOUNT", "BENEFICIARIES", "CONTRACT_TYPE", "CUSTOMER_FIELDS", "ESTIMATED_AMOUNT", "EXECUTION_CITIES", "INTERLOCUTORS", "NOTICES" ]
-      },
       "Anticipation" : {
         "type" : "object",
         "properties" : {
@@ -151,41 +147,6 @@
       "AnticipationProcedureEnum" : {
         "type" : "string",
         "enum" : [ "OPEN_CONTRACT_PROCEDURE", "RESTRICTED_CONTRACT_PROCEDURE", "PERFORMANCES_CONTRACT_PROCEDURE", "NEGOTIATED_PROCEDURE", "ADAPTED_PROCEDURE", "OTHER" ]
-      },
-      "AssigneeDto" : {
-        "required" : [ "firstName", "lastName", "userId" ],
-        "type" : "object",
-        "properties" : {
-          "firstName" : {
-            "type" : "string"
-          },
-          "lastName" : {
-            "type" : "string"
-          },
-          "userId" : {
-            "type" : "integer",
-            "format" : "int64"
-          }
-        }
-      },
-      "AssignerDto" : {
-        "required" : [ "email", "firstName", "lastName", "userId" ],
-        "type" : "object",
-        "properties" : {
-          "email" : {
-            "type" : "string"
-          },
-          "firstName" : {
-            "type" : "string"
-          },
-          "lastName" : {
-            "type" : "string"
-          },
-          "userId" : {
-            "type" : "integer",
-            "format" : "int64"
-          }
-        }
       },
       "AwardCriterion" : {
         "type" : "object",
@@ -276,21 +237,6 @@
           }
         }
       },
-      "BeneficiaryDto" : {
-        "required" : [ "name" ],
-        "type" : "object",
-        "properties" : {
-          "name" : {
-            "type" : "string"
-          },
-          "nationalId" : {
-            "type" : "string"
-          },
-          "place" : {
-            "$ref" : "#/components/schemas/PlaceDto"
-          }
-        }
-      },
       "Boamp" : {
         "type" : "object",
         "properties" : {
@@ -376,22 +322,6 @@
           "version" : {
             "type" : "integer",
             "format" : "int32"
-          }
-        }
-      },
-      "CollaborativeDealOpportunityDto" : {
-        "type" : "object",
-        "properties" : {
-          "favoriteId" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "teamIds" : {
-            "type" : "array",
-            "items" : {
-              "type" : "integer",
-              "format" : "int64"
-            }
           }
         }
       },
@@ -1176,320 +1106,6 @@
         "type" : "string",
         "enum" : [ "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FM", "FO", "FR", "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HM", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT", "JE", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY", "QA", "RE", "RO", "RS", "RU", "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "XK", "YE", "YT", "YU", "ZA", "ZM", "ZW" ]
       },
-      "CustomDateFieldFilter" : {
-        "type" : "object",
-        "properties" : {
-          "rangeEnd" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "rangeStart" : {
-            "type" : "string",
-            "format" : "date"
-          }
-        }
-      },
-      "CustomFieldFilters" : {
-        "required" : [ "customFieldConfigurationId" ],
-        "type" : "object",
-        "properties" : {
-          "customFieldConfigurationId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "dateFieldFilters" : {
-            "$ref" : "#/components/schemas/CustomDateFieldFilter"
-          },
-          "listFieldFilters" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "textFieldFilter" : {
-            "type" : "string"
-          }
-        }
-      },
-      "DealOpportunityEntityTypeEnum" : {
-        "type" : "string",
-        "enum" : [ "CONTRACT", "LOT", "CONFIDENTIAL_CONTRACT", "CONFIDENTIAL_LOT", "TERRITORIAL_DOCUMENT" ]
-      },
-      "DealOpportunityMetadata" : {
-        "required" : [ "archived", "crmExported", "customized", "dieAvailable", "hasQuestionsAnswers" ],
-        "type" : "object",
-        "properties" : {
-          "archived" : {
-            "type" : "boolean"
-          },
-          "assignees" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/AssigneeDto"
-            }
-          },
-          "collaborativeDealOpportunities" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/CollaborativeDealOpportunityDto"
-            }
-          },
-          "crmExported" : {
-            "type" : "boolean"
-          },
-          "customized" : {
-            "type" : "boolean"
-          },
-          "dieAvailable" : {
-            "type" : "boolean"
-          },
-          "hasQuestionsAnswers" : {
-            "type" : "boolean"
-          },
-          "lastSent" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "myDealOpportunity" : {
-            "$ref" : "#/components/schemas/MyDealOpportunityDto"
-          },
-          "referencedCollaborativeDealOpportunities" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/CollaborativeDealOpportunityDto"
-            }
-          },
-          "referencedMyDealOpportunity" : {
-            "$ref" : "#/components/schemas/MyDealOpportunityDto"
-          },
-          "searchProfileNames" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "viewers" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/UserModel"
-            }
-          }
-        }
-      },
-      "DealOpportunityModel" : {
-        "required" : [ "dealOpportunityResultType", "hasDocuments", "id", "originalLanguage", "placesCodes", "principal", "publication", "translations" ],
-        "type" : "object",
-        "properties" : {
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "awardedAmount" : {
-            "$ref" : "#/components/schemas/SingleMonetaryValue"
-          },
-          "beneficiaries" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/BeneficiaryDto"
-            }
-          },
-          "contractId" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "contractTranslations" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/DealOpportunityTranslationDto"
-            }
-          },
-          "contractTypes" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ContractTypeEnum"
-            }
-          },
-          "councilDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "customerFields" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "uniqueItems" : true,
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "deadline" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "dealOpportunityResultType" : {
-            "$ref" : "#/components/schemas/DealOpportunityEntityTypeEnum"
-          },
-          "estimatedAmount" : {
-            "$ref" : "#/components/schemas/SingleMonetaryValue"
-          },
-          "executionCities" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "executions" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/PlaceDto"
-            }
-          },
-          "floorArea" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "hasDocuments" : {
-            "type" : "boolean"
-          },
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "interlocutors" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "uniqueItems" : true,
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/TinyInterlocutorDto"
-              }
-            }
-          },
-          "interlocutorsCount" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "lotNumber" : {
-            "type" : "string"
-          },
-          "lotsCount" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "noticeFirstPublication" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "notices" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/NoticeDto"
-            }
-          },
-          "originalLanguage" : {
-            "$ref" : "#/components/schemas/LanguageEnum"
-          },
-          "placesCodes" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/PlaceCodeDto"
-            }
-          },
-          "posting" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "principal" : {
-            "$ref" : "#/components/schemas/PrincipalDto"
-          },
-          "progress" : {
-            "$ref" : "#/components/schemas/ProgressEnum"
-          },
-          "projectType" : {
-            "$ref" : "#/components/schemas/ProjectTypeEnum"
-          },
-          "publication" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "renewal" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "response" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "sources" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/ContractSourceEnum"
-            }
-          },
-          "start" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "state" : {
-            "$ref" : "#/components/schemas/ContractStateEnum"
-          },
-          "translations" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/DealOpportunityTranslationDto"
-            }
-          },
-          "worksEnd" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "worksStart" : {
-            "type" : "string",
-            "format" : "date"
-          }
-        }
-      },
-      "DealOpportunitySearchHitModel" : {
-        "required" : [ "dealOpportunity", "metadata", "searchHitMetadata" ],
-        "type" : "object",
-        "properties" : {
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "dealOpportunity" : {
-            "$ref" : "#/components/schemas/DealOpportunityModel"
-          },
-          "metadata" : {
-            "$ref" : "#/components/schemas/DealOpportunityMetadata"
-          },
-          "searchHitMetadata" : {
-            "$ref" : "#/components/schemas/SearchHitMetadata"
-          }
-        }
-      },
-      "DealOpportunityTranslationDto" : {
-        "required" : [ "language", "object" ],
-        "type" : "object",
-        "properties" : {
-          "language" : {
-            "$ref" : "#/components/schemas/LanguageEnum"
-          },
-          "object" : {
-            "type" : "string"
-          }
-        }
-      },
       "DocumentTypeEnum" : {
         "type" : "string",
         "enum" : [ "RC", "CCTP", "CCAP", "DQE", "BPU", "AE", "PLAN", "QR", "DUME", "OTHER", "APPENDIX", "APERTURAS", "ADJUDICACION", "BC3", "MAIL_EXCHANGE" ]
@@ -1658,111 +1274,6 @@
         "type" : "string",
         "enum" : [ "VALUE_TOO_LARGE_FOR_DB", "VALUE_WITH_NON_QUALITATIVE_LENGTH", "MISSING_VALUE", "MISSING_CITY_INSEE_CODE", "MISSING_PERSON_DIRECTORY_ID", "MISSING_ESTABLISHMENT_ID", "MISSING_GEOCODING", "MISSING_BENEFICIARIES", "DEPARTMENT_CODE_MISMATCH", "GEOCODING_MISMATCH", "CONTRACT_IMPORT_FAILED", "OPERATOR_FILLING_REQUIRED", "PROCEDURE_MISMATCH", "BENEFICIARY_MISMATCH", "LOT_MISMATCH", "LOTS_SIZE_MISMATCH", "AWARDED_AMOUNT_MISMATCH", "DIRECTORY_ID_BASED_ON_ZIPCODE_CITY_ONLY", "GEOCODING_MULTIPLE_NUTS_CODES", "BENEFICIARIES_SIZE_MISMATCH", "MULTIPLE_PERFECT_MATCHES_HEADQUARTERS_SELECTED", "OPERATOR_VERIFICATION_REQUIRED_AFTER_NOTICE_DETACHMENT", "MANUAL_ERROR", "UPDATE_LOT_NOT_FOUND", "UPDATE_LOT_MULTIPLE_FOUND", "UPDATE_PLACE_NOT_FOUND", "UPDATE_PLACE_MULTIPLE_FOUND", "EXECUTIONS_MISMATCH", "BAD_FORMAT_PERCENT", "BAD_FORMAT_LOT_NUMBER", "BAD_FORMAT_PAM_NUMBER", "BAD_FORMAT_NATIONAL_ID", "BAD_FORMAT_PHONE", "BAD_FORMAT_EMAIL", "BAD_FORMAT_URL", "BAD_FORMAT_CLASSIFICATION", "BAD_FORMAT_ZIP_CODE", "BAD_FORMAT_COUNTRY_CODE", "BAD_FORMAT_DEPARTEMENT_CODE", "BAD_FORMAT_INSEE_CODE", "BAD_FORMAT_NUTS_CODE", "BAD_FORMAT_NUMBER", "BAD_FORMAT_CURRENCY", "TIMEFRAME_MISMATCH", "IMPRECISE_EXECUTION", "FORBIDDEN_NEGATIVE_VALUE", "BAD_FORMAT_NUMBER_OF_TENDERS", "MISSING_END_DATES", "RECTIF_WITHOUT_CHANGES", "INCORRECT_FORMAT", "OPERATOR_NEEDED", "LOT_STATE_MISMATCH", "MISSING_EXECUTION", "MISSING_ACTIVITIES", "VERIFY_ACTIVITIES", "MISSING_DEPARTMENT_CODE", "MISSING_RESPONSE_TIME", "MISSING_AWARDED_AMOUNT", "MISSING_COUNTRY_CODE", "INVALID_DEPARTMENT_FOR_COUNTRY", "GEOCODING_MULTIPLE_DEPARTMENTS", "OPERATOR_NEEDED_EXECUTION", "OPERATOR_NEEDED_LOTS", "MISSING_CLASSIFICATION", "FORBIDDEN_ZERO_OR_NEGATIVE_VALUE", "RENEWAL_DATA_INCOMPLETE", "RENEWAL_DATA_MISMATCH", "RENEWAL_DATE_MISMATCH", "RENEWAL_INITIAL_DURATION_MISMATCH", "LOT_RESPONSE_MISMATCH" ]
       },
-      "FavoriteDescriptionEnum" : {
-        "type" : "string",
-        "enum" : [ "ACTION", "DECISION", "RESULT", "STATUS_TO_BE_DEFINED" ]
-      },
-      "FavoriteDto" : {
-        "required" : [ "color", "icon", "id", "position", "type", "version" ],
-        "type" : "object",
-        "properties" : {
-          "color" : {
-            "maxLength" : 7,
-            "minLength" : 0,
-            "type" : "string"
-          },
-          "description" : {
-            "type" : "string"
-          },
-          "descriptionTranslationKey" : {
-            "$ref" : "#/components/schemas/FavoriteDescriptionEnum"
-          },
-          "favoriteWorkflowRule" : {
-            "$ref" : "#/components/schemas/FavoriteWorkflowRuleDto"
-          },
-          "icon" : {
-            "type" : "string"
-          },
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "nameForExport" : {
-            "type" : "string"
-          },
-          "nameTranslationKey" : {
-            "$ref" : "#/components/schemas/FavoriteNameEnum"
-          },
-          "position" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "type" : {
-            "$ref" : "#/components/schemas/FavoriteTypeEnum"
-          },
-          "version" : {
-            "type" : "integer",
-            "format" : "int32"
-          }
-        }
-      },
-      "FavoriteNameEnum" : {
-        "type" : "string",
-        "enum" : [ "APPLICATION_SENT", "GO", "IN_PROGRESS", "INTERESTED", "LOST", "NEGOCIATION_IN_PROGRESS", "NO_GO", "NO_RESPONSE", "NOT_APPLICABLE", "OFF_TARGET", "PENDING", "PENDING_DECISION", "PLANNED", "RESPONSE_BEING_PREPARED", "RESPONSE_SENT", "TO_ANALYSE", "TO_COMPARE", "TO_CONTACT", "TO_LOOK", "UNKNOWN", "UNSUCCESSFUL", "WON" ]
-      },
-      "FavoriteTypeEnum" : {
-        "type" : "string",
-        "enum" : [ "CONTRACT", "ESTABLISHMENT", "COLLABORATIVE_MODE_STATUS" ]
-      },
-      "FavoriteTypeFilter" : {
-        "required" : [ "type" ],
-        "type" : "object",
-        "properties" : {
-          "type" : {
-            "$ref" : "#/components/schemas/FavoriteTypeEnum"
-          }
-        }
-      },
-      "FavoriteWorkflowRuleDto" : {
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "rule" : {
-            "$ref" : "#/components/schemas/FavoriteWorkflowRuleEnum"
-          }
-        }
-      },
-      "FavoriteWorkflowRuleEnum" : {
-        "type" : "string",
-        "enum" : [ "MOVE_TO_ARCHIVED", "MOVE_TO_FAVORITE" ]
-      },
-      "FavoritesFilter" : {
-        "required" : [ "emptyFavorite", "favoriteIds" ],
-        "type" : "object",
-        "properties" : {
-          "emptyFavorite" : {
-            "type" : "boolean"
-          },
-          "favoriteIds" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "format" : "uuid"
-            }
-          }
-        }
-      },
-      "FilterableFieldEnum" : {
-        "type" : "string",
-        "enum" : [ "BENEFICIARY_LOCATIONS", "BENEFICIARY_NAME", "CITY_EXECUTIONS", "CONTRACT_ID", "CONTRACT_TYPE", "DEADLINE_DATE", "EXECUTION_LOCATIONS", "ID", "INTERLOCUTOR_ROLE", "NOTICE_FIRST_PUBLICATION_DATE", "NOTICE_TYPE", "OBJECT", "PLACES", "POSTING_DATE", "PRINCIPAL_LOCATIONS", "PRINCIPAL_NAME", "PROGRESS", "PROJECT_TYPE", "PUBLICATION_DATE", "RENEWAL_DATE", "RESPONSE_DATE", "SOURCE", "STATE", "WITH_LOTS" ]
-      },
       "Geocoding" : {
         "type" : "object",
         "properties" : {
@@ -1795,66 +1306,6 @@
           },
           "zipCode" : {
             "type" : "string"
-          }
-        }
-      },
-      "GeocodingDto" : {
-        "type" : "object",
-        "properties" : {
-          "address" : {
-            "type" : "string"
-          },
-          "city" : {
-            "type" : "string"
-          },
-          "countryCode" : {
-            "type" : "string"
-          },
-          "inseeCode" : {
-            "type" : "string"
-          },
-          "latitude" : {
-            "type" : "number",
-            "format" : "double"
-          },
-          "longitude" : {
-            "type" : "number",
-            "format" : "double"
-          },
-          "maxAdministrativeAreaLevel" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "nutsCode" : {
-            "type" : "string"
-          },
-          "zipCode" : {
-            "type" : "string"
-          }
-        }
-      },
-      "HighlightDocumentsMessage" : {
-        "required" : [ "fileName", "fromContractEntity", "fromLotEntity", "id", "messages" ],
-        "type" : "object",
-        "properties" : {
-          "fileName" : {
-            "type" : "string"
-          },
-          "fromContractEntity" : {
-            "type" : "boolean"
-          },
-          "fromLotEntity" : {
-            "type" : "boolean"
-          },
-          "id" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "messages" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
           }
         }
       },
@@ -2333,80 +1784,6 @@
           }
         }
       },
-      "MyDealOpportunitiesFilterRequest" : {
-        "type" : "object",
-        "properties" : {
-          "additionalFields" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/AdditionalFieldEnum"
-            }
-          },
-          "archived" : {
-            "type" : "boolean"
-          },
-          "assignee" : {
-            "type" : "string"
-          },
-          "assigner" : {
-            "type" : "string"
-          },
-          "customFieldConfigurationIds" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "type" : "integer",
-              "format" : "int64"
-            }
-          },
-          "customFieldFilters" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/CustomFieldFilters"
-            }
-          },
-          "favoritesFilter" : {
-            "$ref" : "#/components/schemas/FavoritesFilter"
-          },
-          "filters" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/SearchFilter"
-            }
-          },
-          "geocoding" : {
-            "type" : "boolean"
-          },
-          "notPresentInCollaborativeMode" : {
-            "type" : "boolean"
-          },
-          "renewalFilter" : {
-            "$ref" : "#/components/schemas/RenewalFilter"
-          },
-          "requestedInterlocutorRoles" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/RoleEnum"
-            }
-          }
-        }
-      },
-      "MyDealOpportunityDto" : {
-        "type" : "object",
-        "properties" : {
-          "assigner" : {
-            "$ref" : "#/components/schemas/AssignerDto"
-          },
-          "favoriteId" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }
-      },
       "Notice" : {
         "required" : [ "id", "version" ],
         "type" : "object",
@@ -2477,25 +1854,6 @@
       "NoticeContentTypeEnum" : {
         "type" : "string",
         "enum" : [ "CALL_FOR_TENDERS", "CONSTRUCTION_PERMIT", "DESTRUCTION_PERMIT", "PRESCRIPTION", "UPSTREAM_PROJECT" ]
-      },
-      "NoticeDto" : {
-        "required" : [ "noticeIndexationPublication", "referenceId", "source" ],
-        "type" : "object",
-        "properties" : {
-          "noticeIndexationPublication" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "noticeType" : {
-            "$ref" : "#/components/schemas/NoticeTypeEnum"
-          },
-          "referenceId" : {
-            "type" : "string"
-          },
-          "source" : {
-            "$ref" : "#/components/schemas/NoticeSourceEnum"
-          }
-        }
       },
       "NoticeIndexation" : {
         "type" : "object",
@@ -2587,40 +1945,6 @@
           },
           "property" : {
             "type" : "string"
-          }
-        }
-      },
-      "PageDealOpportunitySearchHitModel" : {
-        "required" : [ "content", "number", "size", "totalElements", "totalPages" ],
-        "type" : "object",
-        "properties" : {
-          "content" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/DealOpportunitySearchHitModel"
-            }
-          },
-          "number" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "size" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "sort" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Order"
-            }
-          },
-          "totalElements" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "totalPages" : {
-            "type" : "integer",
-            "format" : "int64"
           }
         }
       },
@@ -2975,47 +2299,6 @@
           }
         }
       },
-      "PlaceCodeDto" : {
-        "required" : [ "countryCode" ],
-        "type" : "object",
-        "properties" : {
-          "countryCode" : {
-            "type" : "string"
-          },
-          "departementCode" : {
-            "type" : "string"
-          }
-        }
-      },
-      "PlaceDto" : {
-        "type" : "object",
-        "properties" : {
-          "address" : {
-            "type" : "string"
-          },
-          "city" : {
-            "type" : "string"
-          },
-          "countryCode" : {
-            "type" : "string"
-          },
-          "departmentCode" : {
-            "type" : "string"
-          },
-          "geocoding" : {
-            "$ref" : "#/components/schemas/GeocodingDto"
-          },
-          "inseeCode" : {
-            "type" : "string"
-          },
-          "nutsCode" : {
-            "type" : "string"
-          },
-          "zipCode" : {
-            "type" : "string"
-          }
-        }
-      },
       "Prescription" : {
         "type" : "object",
         "properties" : {
@@ -3192,31 +2475,6 @@
           }
         }
       },
-      "PrincipalDto" : {
-        "required" : [ "translations" ],
-        "type" : "object",
-        "properties" : {
-          "email" : {
-            "type" : "string"
-          },
-          "nationalId" : {
-            "type" : "string"
-          },
-          "place" : {
-            "$ref" : "#/components/schemas/PlaceDto"
-          },
-          "translations" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/PrincipalTranslationDto"
-            }
-          },
-          "website" : {
-            "type" : "string"
-          }
-        }
-      },
       "PrincipalTranslation" : {
         "required" : [ "language" ],
         "type" : "object",
@@ -3241,18 +2499,6 @@
           "version" : {
             "type" : "integer",
             "format" : "int32"
-          }
-        }
-      },
-      "PrincipalTranslationDto" : {
-        "required" : [ "language", "name" ],
-        "type" : "object",
-        "properties" : {
-          "language" : {
-            "$ref" : "#/components/schemas/LanguageEnum"
-          },
-          "name" : {
-            "type" : "string"
           }
         }
       },
@@ -3341,88 +2587,9 @@
         "type" : "string",
         "enum" : [ "PUBLIC", "PRIVATE", "UNKNOWN" ]
       },
-      "RenewalFilter" : {
-        "type" : "object",
-        "properties" : {
-          "originalFavoritesFilter" : {
-            "$ref" : "#/components/schemas/FavoritesFilter"
-          },
-          "renewalView" : {
-            "type" : "boolean"
-          }
-        }
-      },
       "RoleEnum" : {
         "type" : "string",
         "enum" : [ "UNKNOWN", "ARCHITECT", "PROJECT_MANAGER", "PROJECT_OWNER", "ECONOMIST", "DESIGN_OFFICE", "PROGRAMMER", "SURVEYOR", "TECHNICAL_CONTROLLER", "REPORTER", "LANDSCAPE_ARCHITECT", "DELEGATE_PROJECT_OWNER", "PROMOTER", "GENERAL_CONTRACTOR", "BUYER", "SOIL_SURVEY_ENGINEER", "SPS_ENGINEER", "REPRESENTATIVE", "TOWN_PLANNER", "DESIGN_OFFICE_FLUID", "DESIGN_OFFICE_STRUCTURES", "DESIGN_OFFICE_ACOUSTIC", "DESIGN_OFFICE_ROAD", "DESIGN_OFFICE_GENERAL", "DESIGN_OFFICE_THERMAL", "DESIGN_OFFICE_ENVIRONMENT", "DESIGN_OFFICE_GEOTECH", "DESIGN_OFFICE_ELECTRICITY", "DESIGN_OFFICE_KITCHEN", "OPC_ENGINEER", "SET_DESIGNER", "OTHER", "DESIGN_OFFICE_LIGHTING", "SECONDARY_PRINCIPAL" ]
-      },
-      "SearchContextTypeEnum" : {
-        "type" : "string",
-        "enum" : [ "CONTRACTS", "RENEWALS", "TERRITORIAL_DOCUMENTS", "SEARCH_BY_NATIONAL_ID" ]
-      },
-      "SearchFilter" : {
-        "type" : "object",
-        "properties" : {
-          "fields" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/FilterableFieldEnum"
-            }
-          },
-          "operator" : {
-            "$ref" : "#/components/schemas/SearchOperator"
-          },
-          "values" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          }
-        }
-      },
-      "SearchHitMetadata" : {
-        "required" : [ "documentsMatch" ],
-        "type" : "object",
-        "properties" : {
-          "documentsMatch" : {
-            "type" : "boolean"
-          },
-          "highlightDocuments" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/HighlightDocumentsMessage"
-              }
-            }
-          },
-          "highlightFields" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          }
-        }
-      },
-      "SearchOperator" : {
-        "type" : "string",
-        "enum" : [ "EQUALS", "LESS_THAN", "GREATER_THAN", "BEGIN_WITH", "CONTAINS", "GEO_BOX_INSIDE", "BETWEEN" ]
-      },
-      "SingleMonetaryValue" : {
-        "required" : [ "currencyCode", "singleValue" ],
-        "type" : "object",
-        "properties" : {
-          "currencyCode" : {
-            "type" : "string"
-          },
-          "singleValue" : {
-            "type" : "number"
-          }
-        }
       },
       "SpainMadrid" : {
         "type" : "object",
@@ -3570,25 +2737,6 @@
           }
         }
       },
-      "TinyInterlocutorDto" : {
-        "required" : [ "id" ],
-        "type" : "object",
-        "properties" : {
-          "countryCode" : {
-            "type" : "string"
-          },
-          "id" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "nationalId" : {
-            "type" : "string"
-          }
-        }
-      },
       "UpstreamProject" : {
         "type" : "object",
         "properties" : {
@@ -3675,72 +2823,6 @@
         "type" : "string",
         "enum" : [ "EXISTING_ACCOMMODATIONS_EXTENSION", "OTHER_HOUSE_OPERATIONS", "OTHER_ACCOMMODATIONS_BUILDINGS", "OTHER_BUILDINGS_OPERATIONS", "OTHER_PREMISES_OPERATIONS" ]
       },
-      "UserModel" : {
-        "required" : [ "creation", "disabledBySystem", "email", "enabled", "firstName", "fullName", "id", "lastName", "locale", "newsletter", "organizationId", "singleSignOnEnabled", "verified" ],
-        "type" : "object",
-        "properties" : {
-          "_links" : {
-            "$ref" : "#/components/schemas/Links"
-          },
-          "civility" : {
-            "type" : "string",
-            "enum" : [ "MISTER", "MADAM" ]
-          },
-          "creation" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "disabledBySystem" : {
-            "type" : "boolean"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "enabled" : {
-            "type" : "boolean"
-          },
-          "firstName" : {
-            "type" : "string"
-          },
-          "fullName" : {
-            "type" : "string"
-          },
-          "id" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "information" : {
-            "type" : "string"
-          },
-          "lastName" : {
-            "type" : "string"
-          },
-          "locale" : {
-            "type" : "string",
-            "format" : "locale",
-            "example" : "fr_FR"
-          },
-          "newsletter" : {
-            "type" : "boolean"
-          },
-          "organizationId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "phoneNumber" : {
-            "type" : "string"
-          },
-          "singleSignOnEnabled" : {
-            "type" : "boolean"
-          },
-          "title" : {
-            "type" : "string"
-          },
-          "verified" : {
-            "type" : "boolean"
-          }
-        }
-      },
       "ViewerDto" : {
         "type" : "object",
         "properties" : {
@@ -3790,7 +2872,9 @@
     "securitySchemes" : {
       "BearerAuth" : {
         "type" : "http",
-        "scheme" : "bearer"
+        "description" : "Bearer token",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
       },
       "OpenID" : {
         "type" : "openIdConnect",

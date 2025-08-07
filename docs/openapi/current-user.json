@@ -1,12 +1,12 @@
 {
-  "openapi" : "3.0.4",
+  "openapi" : "3.0.1",
   "info" : {
-    "title" : "Intescia Api",
+    "title" : "Intescia API",
     "version" : "v1"
   },
   "servers" : [ {
     "url" : "https://v1.api.intescia.dev",
-    "description": "v1 API"
+    "description" : "v1 API"
   } ],
   "security" : [ {
     "BearerAuth" : [ ]
@@ -179,12 +179,13 @@
     "securitySchemes" : {
       "BearerAuth" : {
         "type" : "http",
-        "description" : "Enter directly your bearer token",
-        "scheme" : "bearer"
+        "description" : "Bearer token",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
       },
       "OpenID" : {
         "type" : "openIdConnect",
-        "openIdConnectUrl" : "https://sso.dev.intescia.com/realms/intescia/.well-known/openid-configuration"
+        "openIdConnectUrl" : "https://sso.intescia.com/realms/intescia/.well-known/openid-configuration"
       }
     }
   }
