@@ -4,6 +4,8 @@ repo_url: https://github.com/intescia-group/api-docs
 theme:
   name: material
   logo: assets/images/intescia-black-red.svg
+  palette:
+    scheme: slate
 markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
